@@ -11,10 +11,17 @@ import java.util.List;
 public class PageResult<T> implements Serializable {
 
     private long total;
-    private List<T> rows;
 
-    public PageResult(long total, List<T> rows) {
+    private long page;
+
+    private List<?> rows;
+    public PageResult() {
+
+    }
+    public PageResult(long total, long page, List<?> rows) {
+        super();
         this.total = total;
+        this.page = page;
         this.rows = rows;
     }
 
@@ -26,12 +33,20 @@ public class PageResult<T> implements Serializable {
         this.total = total;
     }
 
-    public List<T> getRows() {
+    public List<?> getRows() {
         return rows;
     }
 
-    public void setRows(List<T> rows) {
+    public void setRows(List<?> rows) {
         this.rows = rows;
+    }
+
+    public long getPage() {
+        return page;
+    }
+
+    public void setPage(long page) {
+        this.page = page;
     }
 
 }

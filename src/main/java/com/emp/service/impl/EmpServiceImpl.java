@@ -74,6 +74,6 @@ public class EmpServiceImpl implements EmpService {
             }
         }
         Page<EmpEntity> page= (Page<EmpEntity>)empEntityMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResult(page.getTotal(),pageSize, page.getResult());
     }
 }

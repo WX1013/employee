@@ -35,7 +35,7 @@ public class DeptServiceImpl implements DeptService {
             }
         }
         Page<DeptEntity> page= (Page<DeptEntity>)deptEntityMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResult(page.getTotal(),pageSize, page.getResult());
     }
 
     @Override

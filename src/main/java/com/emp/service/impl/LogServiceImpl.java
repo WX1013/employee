@@ -26,7 +26,7 @@ public class LogServiceImpl implements LogService {
     public PageResult findPage(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Page<LogEntity> page=   (Page<LogEntity>) logEntityMapper.selectByExample(null);
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResult(page.getTotal(),pageSize, page.getResult());
     }
 
 

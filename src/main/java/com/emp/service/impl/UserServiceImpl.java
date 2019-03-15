@@ -109,6 +109,6 @@ public class UserServiceImpl implements UserService {
         }
 
         Page<UserEntity> page = (Page<UserEntity>) userEntityMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResult(page.getTotal(),pageSize, page.getResult());
     }
 }
