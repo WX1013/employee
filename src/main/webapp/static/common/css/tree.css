@@ -1,0 +1,33 @@
+.left-tree {
+  min-height:20px;
+  margin-bottom:20px;
+  width: auto;
+  float: left;
+}
+.left-tree ul {
+  padding-left: 10px;
+}
+.left-tree li {
+  list-style-type:none;
+  margin:0;
+  padding:10px 5px 0 5px;
+  position:relative
+}
+.left-tree li span {
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  display:inline-block;
+  padding:3px 8px;
+  text-decoration:none;
+  cursor:pointer;
+}
+.left-tree>ul>li::before, .left-tree>ul>li::after {
+  border:0
+}
+.left-tree li:last-child::before {
+  height:30px
+}
+.parent_level_one{
+	font-weight: 600;
+}

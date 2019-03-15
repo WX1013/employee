@@ -1,0 +1,58 @@
+.guesslike{
+		
+}
+.guesslike .comment-title{
+	border-bottom: none;
+}
+.guesslike .item-box{
+	background-color: #f3f3f6;
+	padding-left: 2%;
+	padding-top: 0.2rem;
+}
+.guesslike .item-box .item{
+	border-radius: 3px;
+	overflow: hidden;
+	background-color: #fff;
+	float: left;
+	margin-right: 2%;
+	margin-bottom: 0.2rem;
+	width: 47%;
+	padding-bottom: 0.2rem;
+}
+.guesslike .item-box .item .item-img{
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.guesslike .item-box .item .item-title{
+	font-size: 13px;
+	line-height: 0.38rem;
+	padding: 0.15rem 0.1rem;
+}
+.guesslike .item-box .item .like-user{
+	color: #666;
+	font-size: 12px;
+	padding: 0 0.1rem;
+}
+.guesslike .item-box .item .like-user span{
+    vertical-align: middle;
+}
+.guesslike .item-box .item .like-user .avatar{
+	height: 0.4rem;
+	width: 0.4rem;
+	border-radius: 50%;
+	vertical-align: middle;
+}
+.guesslike .item-box .item .like-user .like-count{
+	position: absolute;
+	left: 2.5rem;
+	top: 0.08rem;
+}
+.guesslike .item-box .item .like-user .like-count .like{
+	height: 0.2rem;
+	width: 0.22rem;
+	vertical-align: middle;
+}
+.guesslike .item-box .item .like-user .like-count > span{
+	font-size: 10px;
+}

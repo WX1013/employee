@@ -1,0 +1,304 @@
+html{
+    color: #000;
+    font-size: 14px;
+}
+#app{
+    padding-bottom: 1rem;
+    display: none;
+}
+.clearfix{
+	zoom: 1
+}
+.clearfix::after{
+	content: "";
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+/*****header*****/
+header{
+    height: 0.9rem;
+    line-height: 0.9rem;
+    text-align: center;
+    font-size: 16px;
+    text-align: center;
+}
+
+/*****banner*****/
+.banner-swiper{
+    height: 7.5rem;
+}
+.banner-swiper .swiper-container{
+    height: 100%;
+}
+.banner-swiper .swiper-slide{
+	background: 50% 50% no-repeat;
+	background-size: cover;
+}
+.banner-swiper img{
+    height: 100%;
+    width: 100%;
+}
+.swiper-pagination-bullet{
+    background: #fff;
+    opacity: 1;
+}
+.swiper-pagination-bullet-active{
+    background: #fee739;
+}
+/*****user*****/
+.user-info{
+    height: 1.1rem;
+    padding-left: 0.9rem;
+    margin: 0 0.3rem;
+    border-bottom: 0.01rem solid #eeeeee;
+    overflow: hidden;
+}
+.user-info .user-avatar{
+    height: 0.7rem;
+    width: 0.7rem;
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    border-radius: 50%;
+}
+.user-info .user-name{
+    margin-top: 0.2rem;
+}
+.user-info .time{
+    margin-top: 0.1rem;
+    font-size: 10px;
+}
+.user-info .attention{
+    height: 0.45rem;
+    width: 1.2rem;
+    border: 1px solid #666666;
+    text-align: center;
+    line-height: 0.45rem;
+    border-radius: 0.45rem;
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    top: 0.33rem;
+}
+
+/*****title-content*****/
+.main-title{
+	font-size: 16px;
+	font-weight: bold;
+	padding: 0.35rem 0;
+	margin: 0 0.3rem;
+	border-bottom: 0.01rem solid #eeeeee;
+}
+.main-title .title-money{
+	font-size: 22px;
+	color: #ff5555;
+	margin-bottom: 0.2rem;
+	font-weight: normal
+}
+.main-title .title-money span{
+	font-size: 15px;
+}
+
+.main-label{
+	margin: 0 0.3rem;
+	border-bottom: 0.01rem solid #eeeeee;
+	font-size: 0;
+	overflow: hidden;
+	padding-bottom: 0.3rem;
+}
+.main-label .label-list{
+	margin-top: 0.3rem;
+	font-size: 13px;
+}
+.main-label .inline-block{
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+}
+.main-label .label-left{
+	color: #999999;
+}
+
+/*****main-content*****/
+
+.before-title{
+	margin: 0 0.3rem;
+	border-bottom: 0.01rem solid #eeeeee;
+	padding: 0 0 0.1rem 0.2rem;
+	font-size: 13px;
+	margin-top: 0.3rem;
+}
+.before-title::before{
+	content: "";
+	position: absolute;
+	height: 0.26rem;
+	width: 0.1rem;
+	border-radius: 0.1rem;
+	background-color: #fadd4b;
+	left: 0;
+	top: 0.06rem;
+}
+.list-box{
+	width: 100%;
+}
+.list-box .list-item{
+	width: 20%;
+	float: left;
+	text-align: center;
+	height: 1.1rem;
+}
+.list-box .list-item img{
+	max-width: 0.5rem;
+	max-height: 0.5rem;
+	position: absolute;
+	bottom: 0.4rem;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.list-box .list-item p{
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: 0.1rem;
+	font-size: 10px;
+	color: #808080;
+}
+.main-content{
+   padding: 0.3rem;
+}
+
+.main-content .tags{
+    color: #00b1f3;
+    padding: 0.2rem 0;
+}
+.main-content .old-price{
+	font-size: 13px;
+    color: rgb(153, 153, 153);
+    text-decoration: line-through;
+    margin-right: 0.1rem;
+}
+.main-content .price .itags{
+	background-color: #fcf5ca;
+	color: #fab732;
+	font-size: 10px;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	border-radius: 3px;
+	margin-right: 0.2rem;
+	padding: 0 0.1rem;
+	vertical-align: middle;
+}
+.main-content .location{
+    font-size: 10px;
+    height: 0.22rem;
+}
+.main-content .location img{
+    height: 0.22rem;
+    width: 0.18rem;
+    margin-right: 0.1rem;
+    top: 0.04rem;
+    position: relative;
+}
+.main-content .location .view-count{
+    color: #999999;
+    position: absolute;
+    right: 0;
+}
+
+/*****comment*****/
+.comment{
+    border-top: 0.2rem solid #f3f3f6;
+    padding: 0 0.3rem;
+    overflow: hidden;
+    padding-bottom: 0.7rem;
+}
+.comment-title{
+    height: 0.8rem;
+    line-height: 0.8rem;
+    text-align: center;
+    border-bottom: 0.01rem solid #eeeeee;
+}
+.comment-title .commnet-icon{
+    height: 0.26rem;
+    width: 0.36rem;
+    margin: 0 0.3rem;
+    position: relative;
+    top: 0.03rem;
+}
+.comment-list{
+    padding-left: 0.9rem;
+}
+.comment-list .comment-avatar{
+    position: absolute;
+    top: 0.25rem;
+    left: 0;
+    height: 0.7rem;
+    width: 0.7rem;
+    border-radius: 50%;
+}
+.comment-list .comment-box{
+    padding-top: 0.3rem;
+}
+.comment-list .comment-box .user-name{
+    font-size: 14px;
+}
+.comment-list .comment-box .time{
+    color: #999;
+    font-size: 9px;
+    margin-top: 0.05rem;
+}
+.comment-list .comment-box .comment-text{
+    padding: 0.3rem 0;
+    font-size: 13px;
+}
+.comment-list .comment-box .second-comment-box{
+    background-color: #fbfbfb;
+    padding: 0.1rem;
+}
+.comment-list .comment-box .second-comment-box .second-comment-list{
+    padding: 0.05rem;
+    font-size: 12px;
+}
+.comment-list .comment-box .second-comment-box .second-comment-list .second-comment-name{
+    font-weight: bold;
+}
+.comment-list .comment-box .second-comment-box .more-comment{
+    font-size: 12px;
+    color: #00b1f3;
+    text-align: right;
+    padding: 0.3rem 0;
+}
+.comment-list .comment-box .second-comment-box .more-comment .arrow{
+    width: 0.11rem;
+    height: 0.18rem;
+    margin: 0 0.1rem;
+}
+.comment-list .comment-box .second-comment-box .more-comment .right{
+    transform: rotate(270deg);
+}
+
+/*****footer*****/
+.footer{
+    position: fixed;
+    width: 100%;
+    background: #fff;
+    z-index: 1;
+    height: 1rem;
+    overflow: hidden;
+    bottom: 0;
+    left: 0;
+}
+.footer .download{
+	height: 100%;
+	width: 100%;
+    /* height: 0.8rem;
+    margin: 0.1rem 0.2rem; */
+    border-radius: 0.8rem;
+    line-height: 0.8rem;
+    background-color: #00b1f3;
+    color: #fff;
+    text-align: center;
+    background: url('../img/download-button.png') 50% 50% no-repeat;
+    background-size: contain;
+}
