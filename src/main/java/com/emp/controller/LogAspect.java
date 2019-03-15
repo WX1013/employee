@@ -85,9 +85,11 @@ public class LogAspect {
         String module = target.getClass().getSimpleName();
         log.setModule(module);
         // 获取访问的方法
-        String declaringTypeName = pjp.getSignature().getDeclaringTypeName();
         String methodName = pjp.getSignature().getName();
         log.setMethod(methodName);
+        if(log.getUsername() != null){
+            logService.save(log);
+        }
         // 拦截的方法参数
         Object object = null;
         try {
