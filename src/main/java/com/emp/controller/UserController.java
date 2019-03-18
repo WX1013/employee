@@ -5,6 +5,7 @@ import com.emp.pojo.UserEntity;
 import com.emp.pojo.result.ApiResult;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -126,6 +127,12 @@ public class UserController {
      */
     @RequestMapping("/search")
     public PageResult search(UserEntity user, Integer page, Integer size ){
+        if(page == null){
+            page = 1;
+        }
+        if(size == null){
+            size = 10;
+        }
         return userService.findPage(user, page, size);
     }
 

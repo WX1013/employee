@@ -97,10 +97,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageResult findPage(UserEntity user, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-
         UserEntityExample example = new UserEntityExample();
         UserEntityExample.Criteria criteria = example.createCriteria();
-
         if (user != null) {
             if (user.getUsername() != null && user.getUsername().length() > 0) {
                 criteria.andUsernameLike("%" + user.getUsername() + "%");
@@ -108,9 +106,7 @@ public class UserServiceImpl implements UserService {
             if (user.getPassword() != null && user.getPassword().length() > 0) {
                 criteria.andPasswordLike("%" + user.getPassword() + "%");
             }
-
         }
-
         Page<UserEntity> page = (Page<UserEntity>) userEntityMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
     }
