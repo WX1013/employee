@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private UserEntityMapper userEntityMapper;
 
     @Autowired
-    private EmpEntityMapper entityMapper;
+    private EmpEntityMapper empEntityMapper;
 
     @Override
     public Integer login(String username, String password) {
@@ -48,6 +48,9 @@ public class UserServiceImpl implements UserService {
         EmpEntity emp = new EmpEntity();
         emp.setName(name);
         emp.setPhone(phone);
+        emp.setDelFlg(0);
+        emp.setAddTime(new Date());
+        emp.setUpdateTime(new Date());
         UserEntity userOld = userEntityMapper.getUserByUsername(username);
         if (userOld != null) {
             return 0;
@@ -58,8 +61,8 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(new Date());
         user.setUsername(username);
         user.setPassword(MD5Util.md5(password));
-        entityMapper.insertSelective(emp);
-        userEntityMapper.insert(user);
+        empEntityMapper.insertSelective(emp);
+        userEntityMapper.insertSelective(user);
         return 1;
     }
 

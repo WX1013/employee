@@ -28,7 +28,7 @@ function login() {
             success: function (data) {
                 if (data.code == 200) {
                     alert("登录成功");
-                    location.href = "/cms/index";
+                    location.href = "/cms/index.html";
                 } else {
                     alert("名称或密码错误");
                 }
@@ -44,16 +44,11 @@ function login() {
             success: function (data) {
                 if (data.code == 200) {
                     alert("登录成功");
-                    location.href = "./cms/index";
+                    location.href = "./cms/index.html";
                 } else {
                     alert("名称或密码错误");
                 }
             }
         });
     }
-}
-
-// 注册方法
-function regist() {
-
 }
