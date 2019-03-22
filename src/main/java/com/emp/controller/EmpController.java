@@ -31,6 +31,7 @@ public class EmpController {
     @RequestMapping("/save")
     public ApiResult save(@RequestBody EmpEntity entity){
         if(entity != null){
+            empService.save(entity);
             return new ApiResult();
         }
         return new ApiResult(HttpResultEnum.MIS_PARAM);

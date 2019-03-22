@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, age, sex, identity, address, phone, email, dept_id, del_flg, add_time, 
+    id, name, age, sex, identity, address, phone, email, dept_id, del_flg, add_time,
     update_time
   </sql>
   <select id="selectByExample" parameterType="com.emp.pojo.EmpEntityExample" resultMap="BaseResultMap">
@@ -92,7 +92,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_emp
     where id = #{id,jdbcType=INTEGER}
@@ -108,18 +108,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.emp.pojo.EmpEntity">
-    insert into t_emp (id, name, age, 
-      sex, identity, address, 
-      phone, email, dept_id, 
+    insert into t_emp (id, name, age,
+      sex, identity, address,
+      phone, email, dept_id,
       del_flg, add_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{sex,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+      #{sex,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER},
       #{delFlg,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.emp.pojo.EmpEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into t_emp
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -33,14 +33,6 @@ public interface UserService {
 
 
     /**
-     * 根据ID获取实体
-     * @param id
-     * @return
-     */
-    public UserEntity findOne(Integer id);
-
-
-    /**
      * 批量删除
      * @param id
      */
@@ -53,4 +45,11 @@ public interface UserService {
      * @return
      */
     public PageResult findPage(UserEntity user, int pageNum,int pageSize);
+
+    /**
+     * 启用、禁用用户
+     * @param id
+     * @param state
+     */
+    Integer updateState(Integer id, Integer state);
 }

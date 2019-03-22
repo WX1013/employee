@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UserEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
 
     private String username;
@@ -16,9 +18,17 @@ public class UserEntity implements Serializable {
 
     private Date addTime;
 
+    private String addTimeStr;
+
     private Date updateTime;
 
-    private static final long serialVersionUID = 1L;
+    public String getAddTimeStr() {
+        return addTimeStr;
+    }
+
+    public void setAddTimeStr(String addTimeStr) {
+        this.addTimeStr = addTimeStr;
+    }
 
     public Integer getId() {
         return id;

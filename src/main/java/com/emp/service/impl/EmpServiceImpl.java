@@ -1,10 +1,13 @@
 package com.emp.service.impl;
 
+import com.emp.dao.DeptEntityMapper;
 import com.emp.dao.EmpEntityMapper;
+import com.emp.pojo.DeptEntity;
 import com.emp.pojo.EmpEntity;
 import com.emp.pojo.EmpEntityExample;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.EmpService;
+import com.emp.utils.CommonUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +27,21 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpEntityMapper empEntityMapper;
 
+    @Autowired
+    private DeptEntityMapper deptEntityMapper;
+
     @Override
-    public void save(EmpEntity entity) {
+    public Integer save(EmpEntity entity) {
+        int count;
         if(entity.getId() == null){ // 如果id为空，即为增加
             entity.setDelFlg(0);
             entity.setAddTime(new Date());
             entity.setUpdateTime(new Date() );
-            empEntityMapper.insertSelective(entity);
+            count = empEntityMapper.insertSelective(entity);
         }else{ // 如果id不为空，即为修改
-            empEntityMapper.updateByPrimaryKey(entity);
+            count = empEntityMapper.updateByPrimaryKey(entity);
         }
+        return count;
     }
 
     @Override
@@ -48,7 +56,11 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public EmpEntity findOne(Integer id) {
-        return empEntityMapper.selectByPrimaryKey(id);
+        EmpEntity entity = empEntityMapper.selectByPrimaryKey(id);
+        DeptEntity dept = deptEntityMapper.selectByPrimaryKey(entity.getDeptId());
+        entity.setDeptName(dept.getName());
+        entity.setAddTimeStr(CommonUtil.date2String(entity.getAddTime(),"yyyy-MM-dd"));
+        return entity;
     }
 
     @Override
@@ -74,6 +86,6 @@ public class EmpServiceImpl implements EmpService {
             }
         }
         Page<EmpEntity> page= (Page<EmpEntity>)empEntityMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
 }
