@@ -5,6 +5,7 @@ import com.emp.pojo.UserEntity;
 import com.emp.pojo.result.ApiResult;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,14 +65,14 @@ public class UserController {
      */
     @RequestMapping("/regist")
     public ApiResult regist(String username,String password,String phone,String name){
-        if(username == null || password == null || phone == null || name == null){
+        if(username == null || password == null || phone == null){
             return new ApiResult(HttpResultEnum.MIS_PARAM);
         }
         Integer result = userService.regist(username, password,phone,name);
         if(result == 0){
             return new ApiResult("500","用户名已被占用");
         }
-        return new ApiResult();
+        return new ApiResult("200","注册成功");
     }
 
 
@@ -97,8 +98,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/findOne")
-    public UserEntity findOne(Integer id){
-        return userService.findOne(id);
+    public ApiResult findOne(Integer id){
+        return new ApiResult(userService.findOne(id));
     }
 
     /**
@@ -125,7 +126,13 @@ public class UserController {
      * @return
      */
     @RequestMapping("/search")
-    public PageResult search(@RequestBody UserEntity user, int page, int size  ){
+    public PageResult search(UserEntity user, Integer page, Integer size ){
+        if(page == null){
+            page = 1;
+        }
+        if(size == null){
+            size = 10;
+        }
         return userService.findPage(user, page, size);
     }
 

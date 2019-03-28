@@ -35,7 +35,7 @@
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <props>
-                            <prop key="helperDialect">oracle</prop>
+                            <prop key="helperDialect">mysql</prop>
                             <prop key="reasonable">true</prop>
                         </props>
                     </property>

@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private UserEntityMapper userEntityMapper;
 
     @Autowired
-    private EmpEntityMapper entityMapper;
+    private EmpEntityMapper empEntityMapper;
 
     @Override
     public Integer login(String username, String password) {
@@ -48,6 +48,9 @@ public class UserServiceImpl implements UserService {
         EmpEntity emp = new EmpEntity();
         emp.setName(name);
         emp.setPhone(phone);
+        emp.setDelFlg(0);
+        emp.setAddTime(new Date());
+        emp.setUpdateTime(new Date());
         UserEntity userOld = userEntityMapper.getUserByUsername(username);
         if (userOld != null) {
             return 0;
@@ -58,8 +61,8 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(new Date());
         user.setUsername(username);
         user.setPassword(MD5Util.md5(password));
-        entityMapper.insertSelective(emp);
-        userEntityMapper.insert(user);
+        empEntityMapper.insertSelective(emp);
+        userEntityMapper.insertSelective(user);
         return 1;
     }
 
@@ -94,10 +97,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageResult findPage(UserEntity user, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-
         UserEntityExample example = new UserEntityExample();
         UserEntityExample.Criteria criteria = example.createCriteria();
-
         if (user != null) {
             if (user.getUsername() != null && user.getUsername().length() > 0) {
                 criteria.andUsernameLike("%" + user.getUsername() + "%");
@@ -105,9 +106,7 @@ public class UserServiceImpl implements UserService {
             if (user.getPassword() != null && user.getPassword().length() > 0) {
                 criteria.andPasswordLike("%" + user.getPassword() + "%");
             }
-
         }
-
         Page<UserEntity> page = (Page<UserEntity>) userEntityMapper.selectByExample(example);
         return new PageResult(page.getTotal(),pageSize, page.getResult());
     }
