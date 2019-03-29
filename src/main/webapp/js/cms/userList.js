@@ -6,7 +6,7 @@ function search(username, page, size) {
     $.ajax({
         url: "/user/search",   //url
         type: "post",   //请求类型 ,
-        dataType: "json",
+        dataType: "json", // 返回参数类型
         data: {
             username: username,
             page: page,
