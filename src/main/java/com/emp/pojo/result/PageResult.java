@@ -8,21 +8,34 @@ import java.util.List;
  * @Author: Joker
  * @Date: 2019/2/13 10:48
  */
-public class PageResult<T> implements Serializable {
+public class PageResult<T> implements Serializable{
 
+    private Integer page;
+    private Integer pages;
     private long total;
+    private List<T> rows;
 
-    private long page;
-
-    private List<?> rows;
-    public PageResult() {
-
-    }
-    public PageResult(long total, long page, List<?> rows) {
-        super();
-        this.total = total;
+    public PageResult(Integer page,Integer pages,long total, List<T> rows) {
         this.page = page;
+        this.pages = pages;
+        this.total = total;
         this.rows = rows;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public long getTotal() {
@@ -33,20 +46,12 @@ public class PageResult<T> implements Serializable {
         this.total = total;
     }
 
-    public List<?> getRows() {
+    public List<T> getRows() {
         return rows;
     }
 
-    public void setRows(List<?> rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
-    }
-
-    public long getPage() {
-        return page;
-    }
-
-    public void setPage(long page) {
-        this.page = page;
     }
 
 }

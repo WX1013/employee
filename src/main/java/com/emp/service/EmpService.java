@@ -16,7 +16,7 @@ public interface EmpService {
      * 添加、修改职工信息
      * @param entity
      */
-    void save(EmpEntity entity);
+    Integer save(EmpEntity entity);
 
     /**
      * 根据id删除职工

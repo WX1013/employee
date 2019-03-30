@@ -22,13 +22,33 @@ public class EmpEntity implements Serializable {
 
     private Integer deptId;
 
+    private String deptName;
+
     private Integer delFlg;
 
     private Date addTime;
 
+    private String addTimeStr;
+
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getAddTimeStr() {
+        return addTimeStr;
+    }
+
+    public void setAddTimeStr(String addTimeStr) {
+        this.addTimeStr = addTimeStr;
+    }
 
     public Integer getId() {
         return id;

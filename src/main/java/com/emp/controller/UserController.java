@@ -75,6 +75,18 @@ public class UserController {
         return new ApiResult("200","注册成功");
     }
 
+    @RequestMapping("/updateState")
+    public ApiResult updateState(Integer id, Integer state){
+        Integer count = userService.updateState(id, state);
+        if (count == 1) {
+            if(state == 1){
+                return new ApiResult("200","禁用成功");
+            }else{
+                return new ApiResult("200","启用成功");
+            }
+        }
+        return new ApiResult("400","操作失败");
+    }
 
     /**
      * 修改
@@ -90,16 +102,6 @@ public class UserController {
             e.printStackTrace();
             return new ApiResult("400", "修改失败");
         }
-    }
-
-    /**
-     * 获取实体
-     * @param id
-     * @return
-     */
-    @RequestMapping("/findOne")
-    public ApiResult findOne(Integer id){
-        return new ApiResult(userService.findOne(id));
     }
 
     /**
@@ -127,12 +129,8 @@ public class UserController {
      */
     @RequestMapping("/search")
     public PageResult search(UserEntity user, Integer page, Integer size ){
-        if(page == null){
-            page = 1;
-        }
-        if(size == null){
-            size = 10;
-        }
+        page = page == null ? 1 : page;
+        size = size == null ? 10 : size;
         return userService.findPage(user, page, size);
     }
 
