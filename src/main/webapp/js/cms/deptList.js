@@ -79,7 +79,6 @@ function delUser(id) {
     return;
 }
 
-
 function searchByName(){
     var deptName = $("#deptName").val();
     search(deptName,1,10);
