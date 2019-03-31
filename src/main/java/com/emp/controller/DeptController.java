@@ -80,7 +80,7 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/search")
-    public PageResult search(@RequestBody DeptEntity dept, int page, int size){
+    public PageResult search(@RequestBody DeptEntity dept, Integer page, Integer size){
         return deptService.findPage(dept, page, size);
     }
 

@@ -45,6 +45,19 @@
                 iframeid.height =document.documentElement.clientHeight;
             }
         }
+
+        function logout() {
+            $.ajax({
+                url: "/admin/logout",   //url
+                type: "post", 
+                success: function (data) {
+                    if (data.code == 200) {
+                        location.href = "../login.html";
+                    }
+                }
+            });
+        }
+
     </script>
 </head>
 
@@ -85,7 +98,7 @@
                                     <a href="#" class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="../logout" class="btn btn-default btn-flat">注销</a>
+                                    <a href="#" onclick="logout()" class="btn btn-default btn-flat">注销</a>
                                 </div>
                             </li>
                         </ul>
@@ -198,7 +211,5 @@
     <!-- 底部导航 /-->
 
 </div>
-
 </body>
-
 </html>
