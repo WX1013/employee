@@ -28,9 +28,16 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/save")
-    public ApiResult save(@RequestBody DeptEntity entity){
+    public ApiResult save(DeptEntity entity){
         if(entity != null){
-            return new ApiResult();
+            if(entity.getName() == null || (entity.getName()).trim().equals("")){
+               return new ApiResult("500","部门不能为空");
+            }
+            Integer save = deptService.save(entity);
+            if(save == 0){
+                return new ApiResult("500","该部门已存在");
+            }
+            return new ApiResult("200","保存成功");
         }
         return new ApiResult(HttpResultEnum.MIS_PARAM);
     }
@@ -46,7 +53,7 @@ public class DeptController {
             return new ApiResult(HttpResultEnum.MIS_PARAM);
         }
         deptService.delete(id);
-        return new ApiResult();
+        return new ApiResult("200","删除成功");
     }
 
     /**
@@ -62,15 +69,6 @@ public class DeptController {
         return new ApiResult(deptService.findOne(id));
     }
 
-    /**
-     * 查询所有部门信息
-     * @return
-     */
-    @RequestMapping("/findAll")
-    public ApiResult findAll(){
-        return new ApiResult(deptService.findAll());
-    }
-
 
     /**
      * 根据名称进行查询
@@ -80,7 +78,9 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/search")
-    public PageResult search(@RequestBody DeptEntity dept, Integer page, Integer size){
+    public PageResult search(DeptEntity dept, Integer page, Integer size){
+        page = page == null ? 1 : page;
+        size = size == null ? 10 : size;
         return deptService.findPage(dept, page, size);
     }
 

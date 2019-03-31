@@ -3,6 +3,7 @@ package com.emp.service.impl;
 import com.emp.dao.EmpEntityMapper;
 import com.emp.dao.UserEntityMapper;
 import com.emp.pojo.EmpEntity;
+import com.emp.pojo.EmpEntityExample;
 import com.emp.pojo.UserEntity;
 import com.emp.pojo.UserEntityExample;
 import com.emp.pojo.result.PageResult;
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer login(String username, String password) {
         UserEntity user = userEntityMapper.getUserByUsername(username);
+        if(user.getDelFlg() == 1){
+            return -1;
+        }
         if (user == null) { // 没有此用户
             return 0;
         }
@@ -63,8 +67,13 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(new Date());
         user.setUsername(username);
         user.setPassword(MD5Util.md5(password));
-        int empId = empEntityMapper.insertSelective(emp);
-        user.setEmpId(empId);
+        empEntityMapper.insertSelective(emp);
+        EmpEntityExample example = new EmpEntityExample();
+        EmpEntityExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneEqualTo(phone);
+        List<EmpEntity> emps = empEntityMapper.selectByExample(example);
+        EmpEntity entity = emps.get(0);
+        user.setEmpId(entity.getId());
         userEntityMapper.insertSelective(user);
         return 1;
     }
@@ -100,9 +109,6 @@ public class UserServiceImpl implements UserService {
         }
         Page<UserEntity> page = (Page<UserEntity>) userEntityMapper.selectByExample(example);
         List<UserEntity> result = page.getResult();
-        for (UserEntity userEntity : result) {
-            userEntity.setAddTimeStr(CommonUtil.date2String(userEntity.getAddTime(),"yyyy-MM-dd"));
-        }
         return new PageResult(pageNum,page.getPages(),page.getTotal(), result);
     }
 

@@ -47,18 +47,14 @@ public class EmpServiceImpl implements EmpService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Integer id) {
-        EmpEntity empEntity = empEntityMapper.selectByPrimaryKey(id);
-        if(empEntity != null){
-            empEntity.setDelFlg(1);
-            empEntityMapper.updateByPrimaryKey(empEntity);
-        }
+        empEntityMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public EmpEntity findOne(Integer id) {
         EmpEntity entity = empEntityMapper.selectByPrimaryKey(id);
         DeptEntity dept = deptEntityMapper.selectByPrimaryKey(entity.getDeptId());
-        entity.setDeptName(dept.getName());
+        entity.setDeptName(dept == null ? "" : dept.getName());
         entity.setAddTimeStr(CommonUtil.date2String(entity.getAddTime(),"yyyy-MM-dd"));
         return entity;
     }

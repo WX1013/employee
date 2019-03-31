@@ -31,6 +31,7 @@ function regist() {
         type: "post",   //请求类型 ,
         dataType: "json",
         data: {
+            name: name,
             username: username,
             password: password,
             phone: phone

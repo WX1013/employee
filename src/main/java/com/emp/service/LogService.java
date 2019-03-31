@@ -14,7 +14,7 @@ public interface LogService {
      * 返回分页列表
      * @return
      */
-    public PageResult findPage(int pageNum, int pageSize);
+    public PageResult findPage(LogEntity log,int pageNum, int pageSize);
 
 
     /**

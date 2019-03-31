@@ -26,11 +26,9 @@ function login() {
             dataType: "json",
             data: JSON.stringify(object),
             success: function (data) {
+                alert(data.message);
                 if (data.code == 200) {
-                    alert("登录成功");
                     location.href = "/cms/index.html";
-                } else {
-                    alert("名称或密码错误");
                 }
             }
         });
@@ -42,11 +40,9 @@ function login() {
             dataType: "json",
             data: JSON.stringify(object),
             success: function (data) {
+                alert(data.message);
                 if (data.code == 200) {
-                    alert("登录成功");
-                    location.href = "./cms/index.html";
-                } else {
-                    alert("名称或密码错误");
+                    location.href = "./cms/userIndex.html";
                 }
             }
         });

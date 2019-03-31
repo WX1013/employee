@@ -2,6 +2,7 @@ package com.emp.service.impl;
 
 import com.emp.dao.LogEntityMapper;
 import com.emp.pojo.LogEntity;
+import com.emp.pojo.LogEntityExample;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.LogService;
 import com.github.pagehelper.Page;
@@ -23,9 +24,16 @@ public class LogServiceImpl implements LogService {
     private LogEntityMapper logEntityMapper;
 
     @Override
-    public PageResult findPage(int pageNum, int pageSize) {
+    public PageResult findPage(LogEntity log,int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<LogEntity> page=   (Page<LogEntity>) logEntityMapper.selectByExample(null);
+        LogEntityExample example = new LogEntityExample();
+        LogEntityExample.Criteria criteria = example.createCriteria();
+        if (log != null) {
+            if (log.getUsername() != null && log.getUsername().trim().length() > 0) {
+                criteria.andUsernameLike("%" + log.getUsername() + "%");
+            }
+        }
+        Page<LogEntity> page=  (Page<LogEntity>) logEntityMapper.selectByExample(example);
         return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
 

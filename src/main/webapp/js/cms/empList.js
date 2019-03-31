@@ -4,29 +4,29 @@ $(function () {
 
 function search(username, page, size) {
     $.ajax({
-        url: "/user/search",   //url
+        url: "/emp/search",   //url
         type: "post",   //请求类型 ,
         dataType: "json", // 返回参数类型
         data: {
-            username: username,
+            name: username,
             page: page,
             size: size
         },
         success: function (res) {
-            var users = res.rows;
+            var entities = res.rows;
             var page = res.page;
             var pages = res.pages;
             // 列表数据
             var html = '';
-            for(var i = 0; i < users.length; i++){
+            for(var i = 0; i < entities.length; i++){
                 html += '<tr>';
-                html += ' <td>'+ users[i].id +'</td>';
-                html += ' <td>'+ users[i].username +'</td>';
-                html += ' <td>'+ users[i].addTimeStr +'</td>';
-                html += ' <td>'+ state(users[i].delFlg) +'</td>';
-                html += ' <td><button type="button" class="btn bg-olive btn-xs" onclick="updateState('+users[i].id+','+users[i].delFlg+')" >'+opration(users[i].delFlg)+'</button>';
-                html += ' <a  class="btn bg-olive btn-xs" href="userDetail.html?id='+users[i].empId+'">查看</a>';
-                html += ' <a  class="btn bg-olive btn-xs" onclick="delUser('+users[i].id+')"">删除</a></td>';
+                html += ' <td>'+ entities[i].id +'</td>';
+                html += ' <td>'+ entities[i].name +'</td>';
+                html += ' <td>'+ getSex(entities[i].sex) +'</td>';
+                html += ' <td>'+ entities[i].phone +'</td>';
+                html += ' <td>'+ entities[i].addTimeStr +'</td>';
+                html += ' <td><a  class="btn bg-olive btn-xs" href="userDetail.html?id='+entities[i].id+'">查看</a>';
+                html += ' <a  class="btn bg-olive btn-xs" onclick="delEmp('+entities[i].id+')"">删除</a></td>';
                 html += '</tr>';
             }
             $("#table_data").html(html);
@@ -59,11 +59,20 @@ function changePage(page,pages) {
     search(username,page,10);
 }
 
-function delUser(id) {
-    var flag = confirm("确认删除该用户？删除不可恢复");
+function getSex(sex) {
+    if(sex == 1){
+        return "男";
+    }else{
+        return "女";
+    }
+
+}
+
+function delEmp(id) {
+    var flag = confirm("确认删除该职工？删除不可恢复");
     if(flag){
         $.ajax({
-            url: "/user/delete",   //url
+            url: "/emp/delete",   //url
             type: "post",   //请求类型 ,
             dataType: "json",
             data: {
@@ -80,51 +89,8 @@ function delUser(id) {
     return;
 }
 
-// 启用、禁用用户
-function updateState(id,state){
-    var delFlg = 0;
-    if(state == 0){ // 禁用操作
-        delFlg = 1;
-    }else{ // 启用操作
-        delFlg = 0;
-    }
-    $.ajax({
-        url: "/user/updateState",   //url
-        type: "post",   //请求类型 ,
-        dataType: "json",
-        data: {
-            id: id,
-            state: delFlg
-        },
-        success: function (res) {
-            alert(res.message);
-            if(res.code == '200'){
-                location.reload();
-            }
-        }
-    });
-
-}
-
-// 操作按钮显示
-function opration(state) {
-    if(state == 0){
-        return "禁用";
-    }else{
-        return "启用";
-    }
-}
-
-// 状态显示
-function state(state) {
-    if(state == 0){
-        return "启用";
-    }else{
-        return "禁用";
-    }
-}
 
 function searchByName(){
-    var username = $("#username").val();
-    search(username,1,10);
+    var empname = $("#name").val();
+    search(empname,1,10);
 }

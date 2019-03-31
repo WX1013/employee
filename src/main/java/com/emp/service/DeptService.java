@@ -24,7 +24,7 @@ public interface DeptService {
      * 保存部门
      * @param deptEntity
      */
-    void save(DeptEntity deptEntity);
+    Integer save(DeptEntity deptEntity);
 
     /**
      * 删除部门

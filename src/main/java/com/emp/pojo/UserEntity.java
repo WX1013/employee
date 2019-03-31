@@ -1,5 +1,7 @@
 package com.emp.pojo;
 
+import com.emp.utils.CommonUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,7 +25,7 @@ public class UserEntity implements Serializable {
     private Date updateTime;
 
     public String getAddTimeStr() {
-        return addTimeStr;
+        return CommonUtil.date2String(addTime,"yyyy-MM-dd HH:mm:ss");
     }
 
     public void setAddTimeStr(String addTimeStr) {

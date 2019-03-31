@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,18 +34,32 @@ public class DeptServiceImpl implements DeptService {
             if(dept.getName()!=null && dept.getName().length()>0){
                 criteria.andNameLike("%"+dept.getName()+"%");
             }
+            criteria.andDelFlgEqualTo(0);
         }
         Page<DeptEntity> page= (Page<DeptEntity>)deptEntityMapper.selectByExample(example);
         return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
 
     @Override
-    public void save(DeptEntity entity) {
+    public Integer save(DeptEntity entity) {
         if(entity.getId() == null){ // 如果id为空，即为增加
+            DeptEntityExample example = new DeptEntityExample();
+            DeptEntityExample.Criteria criteria = example.createCriteria();
+            criteria.andNameEqualTo(entity.getName());
+            List<DeptEntity> list = deptEntityMapper.selectByExample(example);
+            if(list.size() > 0){
+                return 0;
+            }
+
+            entity.setDelFlg(0);
+            entity.setAddTime(new Date());
+            entity.setUpdateTime(new Date());
             deptEntityMapper.insertSelective(entity);
         }else{ // 如果id不为空，即为修改
+            entity.setUpdateTime(new Date());
             deptEntityMapper.updateByPrimaryKeySelective(entity);
         }
+        return 1;
     }
 
     @Override
@@ -54,6 +69,7 @@ public class DeptServiceImpl implements DeptService {
         if(entity != null){
             // 修改删除标记为 1
             entity.setDelFlg(1);
+            entity.setUpdateTime(new Date());
             deptEntityMapper.updateByPrimaryKey(entity);
         }
     }

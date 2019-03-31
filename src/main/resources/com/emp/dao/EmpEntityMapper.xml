@@ -121,7 +121,7 @@
   </insert>
   <insert id="insertSelective" parameterType="com.emp.pojo.EmpEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      select LAST_INSERT_ID()
+      SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_emp
     <trim prefix="(" suffix=")" suffixOverrides=",">

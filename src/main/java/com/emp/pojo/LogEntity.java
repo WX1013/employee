@@ -1,5 +1,7 @@
 package com.emp.pojo;
 
+import com.emp.utils.CommonUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,7 +18,17 @@ public class LogEntity implements Serializable {
 
     private Date addTime;
 
+    private String addTimeStr;
+
     private static final long serialVersionUID = 1L;
+
+    public String getAddTimeStr() {
+        return CommonUtil.date2String(addTime,"yyyy-MM-dd HH:mm:ss");
+    }
+
+    public void setAddTimeStr(String addTimeStr) {
+        this.addTimeStr = addTimeStr;
+    }
 
     public Integer getId() {
         return id;

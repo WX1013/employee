@@ -48,7 +48,7 @@ public class EmpController {
             return new ApiResult(HttpResultEnum.MIS_PARAM);
         }
         empService.delete(id);
-        return new ApiResult();
+        return new ApiResult("200","删除成功");
     }
 
     /**
@@ -72,7 +72,9 @@ public class EmpController {
      * @return
      */
     @RequestMapping("/search")
-    public PageResult search(@RequestBody EmpEntity emp, int page, int size  ){
+    public PageResult search(EmpEntity emp, Integer page, Integer size  ){
+        page = page == null ? 1 : page;
+        size = size == null ? 10 : size;
         return empService.findPage(emp, page, size);
     }
 }

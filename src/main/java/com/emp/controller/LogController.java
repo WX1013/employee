@@ -1,5 +1,6 @@
 package com.emp.controller;
 
+import com.emp.pojo.LogEntity;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,10 @@ public class LogController {
      * @return
      */
     @RequestMapping("/getLogList")
-    public PageResult getLogList(int page, int size){
-        return logService.findPage(page, size);
+    public PageResult getLogList(LogEntity log,Integer page, Integer size){
+        page = page == null ? 1 : page;
+        size = size == null ? 10 : size;
+        return logService.findPage(log,page, size);
     }
 
 }

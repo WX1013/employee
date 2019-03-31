@@ -40,6 +40,8 @@ public class UserController {
             return new ApiResult("500","用户不存在");
         }else if(state ==1){
             return new ApiResult("500","用户名或密码错误");
+        }else if (state == -1){
+            return new ApiResult("500","用户已经被禁用，请联系管理员启用");
         }
         request.getSession().setAttribute("user_info",entity);
         return new ApiResult();
