@@ -3,7 +3,7 @@ package com.emp.service;
 import com.emp.pojo.UserEntity;
 import com.emp.pojo.result.PageResult;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 用户服务层
@@ -17,7 +17,7 @@ public interface UserService {
      * @param username
      * @param password
      */
-    Integer login(String username, String password);
+    Map<String,Object> login(String username, String password);
 
     /**
      * 用户注册
@@ -52,4 +52,11 @@ public interface UserService {
      * @param state
      */
     Integer updateState(Integer id, Integer state);
+
+    /**
+     * 根据用户名获取用户信息
+     * @param username
+     * @return
+     */
+    UserEntity getUserByUsername(String username);
 }

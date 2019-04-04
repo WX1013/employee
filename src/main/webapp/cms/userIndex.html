@@ -47,22 +47,24 @@
         }
 
         function logout() {
-            $.ajax({
-                url: "/user/logout",   //url
-                type: "post",
-                success: function (data) {
-                    alert(data.message);
-                    if (data.code == 200) {
-                        location.href = "../login.html";
+            var flag = confirm("确认退出登录？");
+            if(flag){
+                $.ajax({
+                    url: "/user/logout",   //url
+                    type: "post",
+                    success: function (data) {
+                        if (data.code == 200) {
+                            location.href = "../login.html";
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
     </script>
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" >
+<body class="hold-transition skin-blue sidebar-mini" >
 
 <div class="wrapper">
 
@@ -84,27 +86,9 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs" id="username1">用户</span>
+                            <span class="hidden-xs" onclick="logout()">退出登录</span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header" style="height: 55px">
-                                <p id="username2">
-                                    用户
-                                </p>
-                            </li>
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">修改密码</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" onclick="logout()" class="btn btn-default btn-flat">注销</a>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
-
                 </ul>
             </div>
         </nav>
@@ -119,7 +103,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu"  >
                 <li class="header">菜单</li>
-                <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                <li id="admin-index"><a href="userIndex.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
                 <!-- 菜单 -->
                 <li class="treeview">
@@ -132,7 +116,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login">
-                            <a href="userList.html" target="iframe">
+                            <a href="addUserInformation.html" target="iframe">
                                 <i class="fa fa-circle-o"></i>完善个人信息
                             </a>
                         </li>

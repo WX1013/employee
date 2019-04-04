@@ -17,6 +17,11 @@
     <!-- 不拦截静态资源 -->
     <mvc:default-servlet-handler/>
 
+    <!--<mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/manage/**" location="/manage/" />-->
+
     <!--<mvc:resources mapping="/static/**" location="/static/"/>-->
     <!-- 配置拦截器 -->
     <!--<mvc:interceptors>

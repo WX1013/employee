@@ -1,17 +1,22 @@
 package com.emp.controller;
 
 import com.emp.enums.HttpResultEnum;
+import com.emp.pojo.EmpEntity;
 import com.emp.pojo.UserEntity;
 import com.emp.pojo.result.ApiResult;
 import com.emp.pojo.result.PageResult;
+import com.emp.service.EmpService;
 import com.emp.service.UserService;
+import com.emp.utils.CommonUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @Description:
@@ -25,6 +30,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmpService empService;
+
     /**
      * 用户登录
      * @param entity
@@ -35,7 +43,8 @@ public class UserController {
         if(entity == null){
             return new ApiResult(HttpResultEnum.MIS_PARAM);
         }
-        Integer state = userService.login(entity.getUsername(), entity.getPassword());
+        Map<String,Object> map = userService.login(entity.getUsername(), entity.getPassword());
+        Integer state = (Integer) map.get("code");
         if(state == 0){
             return new ApiResult("500","用户不存在");
         }else if(state ==1){
@@ -70,6 +79,10 @@ public class UserController {
         if(username == null || password == null || phone == null){
             return new ApiResult(HttpResultEnum.MIS_PARAM);
         }
+        boolean flag = CommonUtil.isPhone(phone);
+        if(!flag){
+            return new ApiResult("500","请输入正确的手机号码");
+        }
         Integer result = userService.regist(username, password,phone,name);
         if(result == 0){
             return new ApiResult("500","用户名已被占用");
@@ -89,6 +102,16 @@ public class UserController {
         }
         return new ApiResult("400","操作失败");
     }
+
+    @RequestMapping("/resetPass")
+    public ApiResult resetPass(int id){
+        UserEntity user = new UserEntity();
+        user.setId(id);
+        user.setPassword("123456");
+        userService.update(user);
+        return new ApiResult("200","密码重置成功，密码为123456");
+    }
+
 
     /**
      * 修改
@@ -134,6 +157,33 @@ public class UserController {
         page = page == null ? 1 : page;
         size = size == null ? 10 : size;
         return userService.findPage(user, page, size);
+    }
+
+    /**
+     * 获取用户信息
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getUserInfo")
+    public ApiResult getUserInfo(HttpServletRequest request){
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user_info");
+        UserEntity userinfo = userService.getUserByUsername(user.getUsername());
+        EmpEntity emp = empService.findOne(userinfo.getEmpId());
+        return new ApiResult("200","获取成功",emp);
+    }
+
+    /**
+     * 更新个人信息
+     * @param entity
+     * @return
+     */
+    @RequestMapping("/updateInfo")
+    public ApiResult updateInfo(EmpEntity entity){
+        if(entity != null) {
+            empService.update(entity);
+        }
+        EmpEntity emp = empService.findOne(entity.getId());
+        return new ApiResult("200","更新成功",emp);
     }
 
 }

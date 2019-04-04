@@ -2,30 +2,36 @@ $(function () {
     search();
 });
 
-function search(deptName, page, size) {
+function search(username, page, size) {
     $.ajax({
-        url: "/dept/search",   //url
+        url: "/feedback/search",   //url
         type: "post",   //请求类型 ,
         dataType: "json", // 返回参数类型
         data: {
-            name: deptName,
+            username: username,
             page: page,
             size: size
         },
         success: function (res) {
-            var depts = res.rows;
+            var feeds = res.rows;
+            console.log(feeds);
             var page = res.page;
             var pages = res.pages;
             // 列表数据
             var html = '';
-            for(var i = 0; i < depts.length; i++){
+            for(var i = 0; i < feeds.length; i++){
                 html += '<tr>';
-                html += ' <td>'+ depts[i].id +'</td>';
-                html += ' <td>'+ depts[i].name +'</td>';
-                html += ' <td>'+ depts[i].addTimeStr +'</td>';
-                html += ' <td><a  class="btn bg-olive btn-xs" href="#" onclick="edit('+depts[i].empId+')">编辑</a>';
-                html += ' <a  class="btn bg-olive btn-xs" href="userDetail.html?id='+depts[i].empId+'">查看部门人员</a>';
-                html += ' <a  class="btn bg-maroon btn-xs" onclick="delDept('+depts[i].id+')"">删除</a></td>';
+                html += ' <td>'+ feeds[i].id +'</td>';
+                html += ' <td>'+ feeds[i].username +'</td>';
+                html += ' <td>'+ feeds[i].content +'</td>';
+                html += ' <td>'+ feeds[i].addTimeStr +'</td>';
+                html += ' <td>'+ state(feeds[i].state) +'</td>';
+                html += ' <td>';
+                if(feeds[i].state == 0) {
+                    html += '<button type="button" class="btn bg-olive btn-xs" onclick="updateState(' + feeds[i].id + ',1)" >采纳</button>&nbsp; ' +
+                        '<button type="button" class="btn bg-olive btn-xs" onclick="updateState(' + feeds[i].id + ',2)" >不采纳</button>';
+                }
+                html += ' <a  class="btn bg-maroon btn-xs" onclick="delFeed('+feeds[i].id+')"">删除</a></td>';
                 html += '</tr>';
             }
             $("#table_data").html(html);
@@ -54,15 +60,15 @@ function changePage(page,pages) {
     }else if(page > pages){
         page = pages;
     }
-    var deptName = $("#deptName").val();
-    search(deptName,page,10);
+    var username = $("#username").val();
+    search(username,page,10);
 }
 
-function delDept(id) {
-    var flag = confirm("确认删除该部门？");
+function delFeed(id) {
+    var flag = confirm("确认删除该反馈信息？删除不可恢复");
     if(flag){
         $.ajax({
-            url: "/dept/delete",   //url
+            url: "/feedback/delete",   //url
             type: "post",   //请求类型 ,
             dataType: "json",
             data: {
@@ -79,53 +85,38 @@ function delDept(id) {
     return;
 }
 
-function saveDept() {
-    var id = $("#deptId").val();
-    var name = $("#name").val();
+// 启用、禁用用户
+function updateState(id,state){
     $.ajax({
-        url: "/dept/save",   //url
+        url: "/feedback/updateState",   //url
         type: "post",   //请求类型 ,
         dataType: "json",
         data: {
             id: id,
-            name: name
+            state: state
         },
         success: function (res) {
             alert(res.message);
             if(res.code == '200'){
                 location.reload();
-                cancel();
             }
         }
     });
+
+}
+
+// 状态显示
+function state(state) {
+    if(state == 0){
+        return "未采纳";
+    }else if(state == 1){
+        return "已采纳";
+    }else{
+        return "不采纳";
+    }
 }
 
 function searchByName(){
-    var deptName = $("#deptName").val();
-    search(deptName,1,10);
-}
-function myalert() {
-    $("#bg").css({
-        display: "block",
-        height: "100%",
-        position: "fixed"
-    });
-    var $box = $('.box');
-    $box.css({
-        //设置弹出层距离左边的位置
-        left: ($("body").width() - $box.width()) / 2 + "px",
-        //设置弹出层距离上面的位置
-        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
-        display: "block"
-    }).find("p").html();
-}
-
-function edit(deptId){
-
-}
-
-function cancel() {
-    $("#divResult").hide();
-    $("#bg").hide();
-    $(".box").hide();
+    var username = $("#username").val();
+    search(username,1,10);
 }

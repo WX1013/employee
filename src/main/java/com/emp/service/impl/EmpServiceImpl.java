@@ -84,4 +84,11 @@ public class EmpServiceImpl implements EmpService {
         Page<EmpEntity> page= (Page<EmpEntity>)empEntityMapper.selectByExample(example);
         return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
+
+    @Override
+    public void update(EmpEntity entity) {
+        empEntityMapper.updateByPrimaryKeySelective(entity);
+    }
+
+
 }

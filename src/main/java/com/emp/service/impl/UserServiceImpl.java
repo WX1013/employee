@@ -8,7 +8,6 @@ import com.emp.pojo.UserEntity;
 import com.emp.pojo.UserEntityExample;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.UserService;
-import com.emp.utils.CommonUtil;
 import com.emp.utils.MD5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -17,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -34,18 +35,24 @@ public class UserServiceImpl implements UserService {
     private EmpEntityMapper empEntityMapper;
 
     @Override
-    public Integer login(String username, String password) {
+    public Map<String,Object> login(String username, String password) {
+        Map<String,Object> map = new HashMap<>();
         UserEntity user = userEntityMapper.getUserByUsername(username);
-        if(user.getDelFlg() == 1){
-            return -1;
-        }
+        Integer code = 0;
         if (user == null) { // 没有此用户
-            return 0;
+            code = 0;
+        }else {
+            map.put("user", user);
+            if (user.getDelFlg() == 1) {
+                code = -1; // 用户被禁用
+            }else if(MD5Util.md5(password).equals(user.getPassword())){
+                code = 2; // 登录成功
+            }else{
+                code = 1;
+            }
         }
-        if (MD5Util.md5(password).equals(user.getPassword())) {
-            return 2; // 登录成功
-        }
-        return 1; // 用户名或者密码错误
+        map.put("code",code);
+        return map;
     }
 
     @Override
@@ -83,6 +90,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void update(UserEntity user) {
+        if(user.getPassword() != null){
+            user.setPassword(MD5Util.md5(user.getPassword()));
+        }
         userEntityMapper.updateByPrimaryKey(user);
     }
 
@@ -124,5 +134,10 @@ public class UserServiceImpl implements UserService {
             return 1;
         }
         return 0;
+    }
+
+    @Override
+    public UserEntity getUserByUsername(String username) {
+        return userEntityMapper.getUserByUsername(username);
     }
 }

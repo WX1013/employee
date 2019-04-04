@@ -39,4 +39,9 @@ public interface EmpService {
      */
     public PageResult findPage(EmpEntity emp, int pageNum, int pageSize);
 
+    /**
+     * 修改职工信息
+     * @param entity
+     */
+    void update(EmpEntity entity);
 }

@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>用户反馈</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body>
 
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<div class="box-header with-border">
+    <h3 class="box-title">用户反馈</h3>
+</div>
+<div class="box-body">
+    <!--tab页-->
+    <div class="nav-tabs-custom">
+
+        <!--tab内容-->
+        <div class="tab-content">
+            <!--基本设置-->
+            <div class="tab-pane active" id="tab-form">
+                <div class="row data-type">
+                    <div class="col-md-2 title rowHeight2x">反馈内容</div>
+                    <div class="col-md-10 data rowHeight2x">
+                        <textarea class="form-control" id="content" rows="3" placeholder="字数不超过100字"></textarea>
+                    </div>
+
+                    <div class="col-md-10 data text-center">
+                        <button type="button" class="btn bg-maroon" onclick="saveFeedback()">发布</button>
+                    </div>
+                </div>
+            </div>
+            <!--基本设置/-->
+
+        </div>
+        <!--tab内容/-->
+
+    </div>
+    <!--tab页/-->
+</div>
+<!-- /.box-body -->
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../js/cms/feedback.js"></script>
 </body>
+
 </html>

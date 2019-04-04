@@ -38,11 +38,11 @@ function search(username, page, size) {
                 if (page == i) {
                     pagenation += '<li class="active"><a href="#" onclick="changePage(' + ('+i+') + ',' + pages + ')"  >' + i + '</a></li>';
                 } else {
-                    pagenation += '<li><a href="#" onclick="changePage(' + ('+i+') + ',' + pages + ')">' + i + '</a></li>';
+                    pagenation += '<li><a href="#" onclick="changePage(' + i + ',' + pages + ')">' + i + '</a></li>';
                 }
             }
             pagenation += '<li><a href="#" onclick="changePage(' + (page + 1) + ',' + pages + ')">下一页</a></li>\n' +
-                '          <li><a href="#" onclick="changePage(' + pages + ',10)" aria-label="Next">尾页</a></li>';
+                '          <li><a href="#" onclick="changePage(' + pages + ',' + pages + ')" aria-label="Next">尾页</a></li>';
             $("#pagenation").html(pagenation);
         }
     });

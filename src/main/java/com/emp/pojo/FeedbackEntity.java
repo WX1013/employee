@@ -1,5 +1,7 @@
 package com.emp.pojo;
 
+import com.emp.utils.CommonUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +17,8 @@ public class FeedbackEntity implements Serializable {
     private Integer state;
 
     private Date addtime;
+
+    private String addTimeStr;
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +68,14 @@ public class FeedbackEntity implements Serializable {
 
     public void setAddtime(Date addtime) {
         this.addtime = addtime;
+    }
+
+    public String getAddTimeStr() {
+        return CommonUtil.date2String(addtime,"yyyy-MM-dd HH:mm");
+    }
+
+    public void setAddTimeStr(String addTimeStr) {
+        this.addTimeStr = addTimeStr;
     }
 
     @Override
