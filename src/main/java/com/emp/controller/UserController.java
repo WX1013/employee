@@ -44,7 +44,7 @@ public class UserController {
             return new ApiResult("500","用户已经被禁用，请联系管理员启用");
         }
         request.getSession().setAttribute("user_info",entity);
-        return new ApiResult();
+        return new ApiResult("200","登录成功");
     }
 
     /**
@@ -56,7 +56,7 @@ public class UserController {
     public ApiResult userLogout(HttpServletRequest request){
         // 删除session域中用户信息
         request.getSession().removeAttribute("user_info");
-        return new ApiResult();
+        return new ApiResult("200","退出成功");
     }
 
     /**

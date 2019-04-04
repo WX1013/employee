@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emp.dao.DeptMemberEntityMapper">
+  <resultMap id="BaseResultMap" type="com.emp.pojo.DeptMemberEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="empName" jdbcType="VARCHAR" property="empname" />
+    <result column="empId" jdbcType="INTEGER" property="empid" />
+    <result column="deptId" jdbcType="INTEGER" property="deptid" />
+    <result column="deptName" jdbcType="VARCHAR" property="deptname" />
+    <result column="delFlg" jdbcType="VARCHAR" property="delflg" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, empName, empId, deptId, deptName, delFlg, addTime, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.emp.pojo.DeptMemberEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_dept_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_dept_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_dept_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.emp.pojo.DeptMemberEntityExample">
+    delete from t_dept_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.emp.pojo.DeptMemberEntity">
+    insert into t_dept_member (id, empName, empId,
+      deptId, deptName, delFlg,
+      addTime, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{empname,jdbcType=VARCHAR}, #{empid,jdbcType=INTEGER},
+      #{deptid,jdbcType=INTEGER}, #{deptname,jdbcType=VARCHAR}, #{delflg,jdbcType=VARCHAR},
+      #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.emp.pojo.DeptMemberEntity">
+    insert into t_dept_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="empname != null">
+        empName,
+      </if>
+      <if test="empid != null">
+        empId,
+      </if>
+      <if test="deptid != null">
+        deptId,
+      </if>
+      <if test="deptname != null">
+        deptName,
+      </if>
+      <if test="delflg != null">
+        delFlg,
+      </if>
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="empname != null">
+        #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null">
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="deptname != null">
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="delflg != null">
+        #{delflg,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.emp.pojo.DeptMemberEntityExample" resultType="java.lang.Long">
+    select count(*) from t_dept_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_dept_member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.empname != null">
+        empName = #{record.empname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empid != null">
+        empId = #{record.empid,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptid != null">
+        deptId = #{record.deptid,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptname != null">
+        deptName = #{record.deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflg != null">
+        delFlg = #{record.delflg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        addTime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_dept_member
+    set id = #{record.id,jdbcType=INTEGER},
+      empName = #{record.empname,jdbcType=VARCHAR},
+      empId = #{record.empid,jdbcType=INTEGER},
+      deptId = #{record.deptid,jdbcType=INTEGER},
+      deptName = #{record.deptname,jdbcType=VARCHAR},
+      delFlg = #{record.delflg,jdbcType=VARCHAR},
+      addTime = #{record.addtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.emp.pojo.DeptMemberEntity">
+    update t_dept_member
+    <set>
+      <if test="empname != null">
+        empName = #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null">
+        empId = #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null">
+        deptId = #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="deptname != null">
+        deptName = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="delflg != null">
+        delFlg = #{delflg,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.emp.pojo.DeptMemberEntity">
+    update t_dept_member
+    set empName = #{empname,jdbcType=VARCHAR},
+      empId = #{empid,jdbcType=INTEGER},
+      deptId = #{deptid,jdbcType=INTEGER},
+      deptName = #{deptname,jdbcType=VARCHAR},
+      delFlg = #{delflg,jdbcType=VARCHAR},
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

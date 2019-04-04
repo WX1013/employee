@@ -35,19 +35,14 @@ public class AdminController {
     @RequestMapping("/login")
     public ApiResult adminLogin(HttpServletRequest request, @RequestBody AdminEntity entity) {
         // 登录失败
-        if (StringUtils.isBlank(entity.getUsername()) || StringUtils.isBlank(entity.getPassword())) {
-            // 缺少参数
-            return new ApiResult(HttpResultEnum.MIS_PARAM);
-        }
         AdminEntity adminEntity = adminService.findByUsername(entity.getUsername());
         if (adminEntity == null || !Objects.equals(adminEntity.getPassword(), entity.getPassword())) {
             // 账户密码错误
-            return new ApiResult(HttpResultEnum.ADMIN_AUTHENTICATION_FAILED);
+            return new ApiResult("400","账号或密码错误");
         }
         // 登录成功，把登录信息保存到session域中
         request.getSession().setAttribute("admin_info", adminEntity);
-
-        return new ApiResult();
+        return new ApiResult("200","登录成功");
     }
 
     /**
