@@ -40,7 +40,24 @@ function search(username, page, size) {
             $("#pageAndTotal").html("总共 " + res.pages + " 页，共 " + res.total + " 条数据");
             var pagenation = '<li><a href="#" onclick="changePage(1,10)" aria-label="Previous">首页</a></li>\n' +
                 '             <li><a href="#" onclick="changePage(' + (page - 1) + ',' + pages + ')">上一页</a></li>';
-            for (var i = 1; i <= pages; i++) {
+            var begin;
+            var end;
+            if(pages <= 5){
+                begin = 1;
+                end = pages;
+            }
+            if(pages > 5){
+                begin = 1;
+                end = 5;
+                if(page > 3 && page < pages - 2){
+                    begin = page - 2;
+                    end = page + 2;
+                }else if(page >= pages - 2){
+                    begin = pages - 4;
+                    end = pages;
+                }
+            }
+            for (var i = begin; i <= end; i++) {
                 if (page == i) {
                     pagenation += '<li class="active"><a href="#" onclick="changePage(' + ('+i+') + ',' + pages + ')"  >' + i + '</a></li>';
                 } else {

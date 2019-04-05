@@ -23,7 +23,7 @@ function search(deptName, page, size) {
                 html += ' <td>'+ depts[i].id +'</td>';
                 html += ' <td>'+ depts[i].name +'</td>';
                 html += ' <td>'+ depts[i].addTimeStr +'</td>';
-                html += ' <td><a  class="btn bg-olive btn-xs" href="#" onclick="edit('+depts[i].empId+')">编辑</a>';
+                html += ' <td><a  class="btn bg-olive btn-xs" href="#" onclick="edit('+depts[i].id+')">编辑</a>';
                 html += ' <a  class="btn bg-olive btn-xs" href="userDetail.html?id='+depts[i].empId+'">查看部门人员</a>';
                 html += ' <a  class="btn bg-maroon btn-xs" onclick="delDept('+depts[i].id+')"">删除</a></td>';
                 html += '</tr>';
@@ -34,7 +34,24 @@ function search(deptName, page, size) {
             $("#pageAndTotal").html("总共 " + res.pages + " 页，共 " + res.total + " 条数据");
             var pagenation = '<li><a href="#" onclick="changePage(1,10)" aria-label="Previous">首页</a></li>\n' +
                 '             <li><a href="#" onclick="changePage(' + (page - 1) + ',' + pages + ')">上一页</a></li>';
-            for (var i = 1; i <= pages; i++) {
+            var begin;
+            var end;
+            if(pages <= 5){
+                begin = 1;
+                end = pages;
+            }
+            if(pages > 5){
+                begin = 1;
+                end = 5;
+                if(page > 3 && page < pages - 2){
+                    begin = page - 2;
+                    end = page + 2;
+                }else if(page >= pages - 2){
+                    begin = pages - 4;
+                    end = pages;
+                }
+            }
+            for (var i = begin; i <= end; i++) {
                 if (page == i) {
                     pagenation += '<li class="active"><a href="#" onclick="changePage(' + ('+i+') + ',' + pages + ')"  >' + i + '</a></li>';
                 } else {
@@ -118,9 +135,40 @@ function myalert() {
         top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
         display: "block"
     }).find("p").html();
+    $("#deptId").val("");
+    $("#name").val("");
 }
 
 function edit(deptId){
+    $("#bg").css({
+        display: "block",
+        height: "100%",
+        position: "fixed"
+    });
+    var $box = $('.box');
+    $box.css({
+        //设置弹出层距离左边的位置
+        left: ($("body").width() - $box.width()) / 2 + "px",
+        //设置弹出层距离上面的位置
+        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
+        display: "block"
+    }).find("p").html();
+    $.ajax({
+        url: "/dept/findOne",   //url
+        type: "post",   //请求类型 ,
+        dataType: "json",
+        data: {
+            id: deptId,
+        },
+        success: function (res) {
+            if(res.code == '200'){
+                var dept = res.result;
+                console.log(dept);
+                $("#deptId").val(dept.id);
+                $("#name").val(dept.name);
+            }
+        }
+    });
 
 }
 
