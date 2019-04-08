@@ -28,4 +28,6 @@ public interface DeptMemberEntityMapper {
     int updateByPrimaryKeySelective(DeptMemberEntity record);
 
     int updateByPrimaryKey(DeptMemberEntity record);
+
+    List<DeptMemberEntity> selectByDeptId(Integer deptid);
 }

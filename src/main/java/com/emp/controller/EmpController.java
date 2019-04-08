@@ -77,4 +77,15 @@ public class EmpController {
         size = size == null ? 10 : size;
         return empService.findPage(emp, page, size);
     }
+
+    /**
+     * 查询所有职工信息
+     * @return
+     */
+    @RequestMapping("/getEmps")
+    public ApiResult findAll(){
+        return new ApiResult(empService.findAll());
+    }
+
+
 }

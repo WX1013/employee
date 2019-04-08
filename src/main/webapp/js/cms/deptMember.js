@@ -1,31 +1,24 @@
 $(function () {
-    search();
-});
-
-function search(deptName, page, size) {
+    var deptId = getUrlData("deptId");
     $.ajax({
-        url: "/dept/search",   //url
+        url: "/member/getMembers",   //url
         type: "post",   //请求类型 ,
-        dataType: "json", // 返回参数类型
+        dataType: "json",
         data: {
-            name: deptName,
-            page: page,
-            size: size
+            deptId: deptId
         },
         success: function (res) {
-            var depts = res.rows;
+            var members = res.rows;
             var page = res.page;
             var pages = res.pages;
             // 列表数据
             var html = '';
-            for(var i = 0; i < depts.length; i++){
+            for (var i = 0; i < members.length; i++) {
                 html += '<tr>';
-                html += ' <td>'+ depts[i].id +'</td>';
-                html += ' <td>'+ depts[i].name +'</td>';
-                html += ' <td>'+ depts[i].addTimeStr +'</td>';
-                html += ' <td><a  class="btn bg-olive btn-xs" href="#" onclick="edit('+depts[i].id+')">编辑</a>';
-                html += ' <a  class="btn bg-olive btn-xs" href="deptMember.html?deptId='+depts[i].id +'">查看部门人员</a>';
-                html += ' <a  class="btn bg-maroon btn-xs" onclick="delDept('+depts[i].id+')"">删除</a></td>';
+                html += ' <td>' + members[i].id + '</td>';
+                html += ' <td>' + members[i].empname + '</td>';
+                html += ' <td>' + members[i].addTimeStr + '</td>';
+                html += ' <td><a  class="btn bg-maroon btn-xs" onclick="delMember(' + members[i].id + ')"">删除</a></td>';
                 html += '</tr>';
             }
             $("#table_data").html(html);
@@ -63,23 +56,13 @@ function search(deptName, page, size) {
             $("#pagenation").html(pagenation);
         }
     });
-}
+});
 
-function changePage(page,pages) {
-    if(page < 1){
-        page = 1;
-    }else if(page > pages){
-        page = pages;
-    }
-    var deptName = $("#deptName").val();
-    search(deptName,page,10);
-}
-
-function delDept(id) {
-    var flag = confirm("确认删除该部门？");
-    if(flag){
+function delMember(id) {
+    var flag = confirm("确认删除该职工？删除不可恢复");
+    if (flag) {
         $.ajax({
-            url: "/dept/delete",   //url
+            url: "/member/delMember",   //url
             type: "post",   //请求类型 ,
             dataType: "json",
             data: {
@@ -87,7 +70,7 @@ function delDept(id) {
             },
             success: function (res) {
                 alert(res.message);
-                if(res.code == '200'){
+                if (res.code == '200') {
                     location.reload();
                 }
             }
@@ -96,80 +79,67 @@ function delDept(id) {
     return;
 }
 
-function saveDept() {
-    var id = $("#deptId").val();
-    var name = $("#name").val();
+// 获取url参数
+function getUrlData(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    } else {
+        return null;
+    }
+}
+
+
+function addMember() {
+    var deptId = getUrlData("deptId");
+    var empid = $("#empList").val();
     $.ajax({
-        url: "/dept/save",   //url
+        url: "/member/addMember",   //url
         type: "post",   //请求类型 ,
         dataType: "json",
         data: {
-            id: id,
-            name: name
+            empid: empid,
+            deptid: deptId
         },
         success: function (res) {
             alert(res.message);
-            if(res.code == '200'){
+            if (res.code == '200') {
                 location.reload();
-                cancel();
             }
         }
     });
 }
 
-function searchByName(){
-    var deptName = $("#deptName").val();
-    search(deptName,1,10);
-}
 function myalert() {
-    $("#bg").css({
-        display: "block",
-        height: "100%",
-        position: "fixed"
-    });
-    var $box = $('.box');
-    $box.css({
-        //设置弹出层距离左边的位置
-        left: ($("body").width() - $box.width()) / 2 + "px",
-        //设置弹出层距离上面的位置
-        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
-        display: "block"
-    }).find("p").html();
-    $("#deptId").val("");
-    $("#name").val("");
-}
-
-function edit(deptId){
-    $("#bg").css({
-        display: "block",
-        height: "100%",
-        position: "fixed"
-    });
-    var $box = $('.box');
-    $box.css({
-        //设置弹出层距离左边的位置
-        left: ($("body").width() - $box.width()) / 2 + "px",
-        //设置弹出层距离上面的位置
-        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
-        display: "block"
-    }).find("p").html();
     $.ajax({
-        url: "/dept/findOne",   //url
+        url: "/emp/getEmps",   //url
         type: "post",   //请求类型 ,
         dataType: "json",
-        data: {
-            id: deptId,
-        },
+        data: {},
         success: function (res) {
-            if(res.code == '200'){
-                var dept = res.result;
-                console.log(dept);
-                $("#deptId").val(dept.id);
-                $("#name").val(dept.name);
+            var list = res.result;
+            var html = '<option value="">请选择职工</option>';
+            for(var i = 0; i < list.length; i++){
+                html += '<option value="'+list[i].id+'">'+list[i].name+'</option>';
             }
+            $("#empList").html(html);
         }
     });
 
+    $("#bg").css({
+        display: "block",
+        height: "100%",
+        position: "fixed"
+    });
+    var $box = $('.box');
+    $box.css({
+        //设置弹出层距离左边的位置
+        left: ($("body").width() - $box.width()) / 2 + "px",
+        //设置弹出层距离上面的位置
+        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
+        display: "block"
+    }).find("p").html();
 }
 
 function cancel() {

@@ -1,5 +1,6 @@
 package com.emp.service;
 
+import com.emp.enums.HttpResultEnum;
 import com.emp.pojo.EmpEntity;
 import com.emp.pojo.result.PageResult;
 
@@ -44,4 +45,6 @@ public interface EmpService {
      * @param entity
      */
     void update(EmpEntity entity);
+
+    List<EmpEntity> findAll();
 }

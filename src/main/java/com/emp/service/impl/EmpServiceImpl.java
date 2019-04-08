@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -39,6 +40,7 @@ public class EmpServiceImpl implements EmpService {
             entity.setUpdateTime(new Date() );
             count = empEntityMapper.insertSelective(entity);
         }else{ // 如果id不为空，即为修改
+            entity.setUpdateTime(new Date());
             count = empEntityMapper.updateByPrimaryKey(entity);
         }
         return count;
@@ -87,7 +89,13 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public void update(EmpEntity entity) {
+        entity.setUpdateTime(new Date());
         empEntityMapper.updateByPrimaryKeySelective(entity);
+    }
+
+    @Override
+    public List<EmpEntity> findAll() {
+        return empEntityMapper.selectByExample(null);
     }
 
 

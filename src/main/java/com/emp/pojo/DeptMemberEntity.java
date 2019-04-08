@@ -1,5 +1,7 @@
 package com.emp.pojo;
 
+import com.emp.utils.CommonUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,9 +16,11 @@ public class DeptMemberEntity implements Serializable {
 
     private String deptname;
 
-    private String delflg;
+    private Integer delflg;
 
     private Date addtime;
+
+    private String addTimeStr;
 
     private Date updatetime;
 
@@ -62,12 +66,12 @@ public class DeptMemberEntity implements Serializable {
         this.deptname = deptname == null ? null : deptname.trim();
     }
 
-    public String getDelflg() {
+    public Integer getDelflg() {
         return delflg;
     }
 
-    public void setDelflg(String delflg) {
-        this.delflg = delflg == null ? null : delflg.trim();
+    public void setDelflg(Integer delflg) {
+        this.delflg = delflg == null ? null : delflg;
     }
 
     public Date getAddtime() {
@@ -84,6 +88,14 @@ public class DeptMemberEntity implements Serializable {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getAddTimeStr() {
+        return CommonUtil.date2String(addtime,"yyyy-MM-dd HH:mm:ss");
+    }
+
+    public void setAddTimeStr(String addTimeStr) {
+        this.addTimeStr = addTimeStr;
     }
 
     @Override

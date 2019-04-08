@@ -8,6 +8,8 @@ import com.emp.pojo.result.PageResult;
 import com.emp.service.EmpService;
 import com.emp.service.UserService;
 import com.emp.utils.CommonUtil;
+import com.emp.utils.MailUtils;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -185,5 +188,50 @@ public class UserController {
         EmpEntity emp = empService.findOne(entity.getId());
         return new ApiResult("200","更新成功",emp);
     }
+
+    /**
+     * 修改密码
+     * @param request
+     * @param password
+     * @param newpassword
+     * @param repassword
+     * @return
+     */
+    @RequestMapping("/changePass")
+    public ApiResult changePass(HttpServletRequest request,String password,String newpassword,String repassword){
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user_info");
+        if(user.getPassword().equals(password)){
+            if(newpassword.equals(repassword)){
+                userService.changePass(user.getUsername(),newpassword);
+                return new ApiResult("200","修改成功,请重新登录");
+            }else{
+                return new ApiResult("500","两次密码输入不一致");
+            }
+        }else{
+            return new ApiResult("500","原密码不正确");
+        }
+    }
+
+    /**
+     * 获取验证码,通过邮箱发送
+     * @return
+     */
+    @RequestMapping("/getCode")
+    public ApiResult getCode(String username,String email){
+        // 获取验证码
+        String randCode = CommonUtil.getRandCode();
+        UserEntity loginUser = userService.getUserByUsername(username);
+        if(loginUser == null){
+            return new ApiResult("500","用户不存在");
+        }
+        EmpEntity emp = empService.findOne(loginUser.getEmpId());
+        if(emp.getEmail() == null){
+            return new ApiResult("500","您的个人信息尚未完善，请联系管理员重置密码\n联系方式：18855992252");
+        }
+        // 发送验证码到用户邮箱
+        MailUtils.sendMail(email,"您的验证码为：" + randCode,"验证码");
+        return new ApiResult(randCode);
+    }
+
 
 }

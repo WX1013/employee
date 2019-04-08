@@ -59,4 +59,11 @@ public interface UserService {
      * @return
      */
     UserEntity getUserByUsername(String username);
+
+    /**
+     * 修改密码
+     * @param username
+     * @param password
+     */
+    void changePass(String username, String password);
 }

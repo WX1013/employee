@@ -7,7 +7,7 @@
     <result column="empId" jdbcType="INTEGER" property="empid" />
     <result column="deptId" jdbcType="INTEGER" property="deptid" />
     <result column="deptName" jdbcType="VARCHAR" property="deptname" />
-    <result column="delFlg" jdbcType="VARCHAR" property="delflg" />
+    <result column="delFlg" jdbcType="INTEGER" property="delflg" />
     <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
@@ -255,4 +255,9 @@
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByDeptId" resultMap="BaseResultMap">
+    select * from t_dept_member where deptid = #{deptid}
+  </select>
+
 </mapper>

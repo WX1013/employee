@@ -93,7 +93,8 @@ public class UserServiceImpl implements UserService {
         if(user.getPassword() != null){
             user.setPassword(MD5Util.md5(user.getPassword()));
         }
-        userEntityMapper.updateByPrimaryKey(user);
+        user.setUpdateTime(new Date());
+        userEntityMapper.updateByPrimaryKeySelective(user);
     }
 
     /**
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
         user.setDelFlg(state);
         EmpEntity emp = empEntityMapper.selectByPrimaryKey(user.getEmpId());
         emp.setDelFlg(state);
-        int count1 = empEntityMapper.updateByPrimaryKey(emp);
+        int count1 = empEntityMapper.updateByPrimaryKeySelective(emp);
         int count2 = userEntityMapper.updateByPrimaryKeySelective(user);
         if(count1 > 0 && count2 > 0){
             return 1;
@@ -139,5 +140,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserByUsername(String username) {
         return userEntityMapper.getUserByUsername(username);
+    }
+
+    @Override
+    public void changePass(String username, String newpassword) {
+        UserEntity user = userEntityMapper.getUserByUsername(username);
+        user.setPassword(MD5Util.md5(newpassword));
+        userEntityMapper.updateByPrimaryKeySelective(user);
     }
 }
