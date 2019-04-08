@@ -66,4 +66,11 @@ public interface UserService {
      * @param password
      */
     void changePass(String username, String password);
+
+    /**
+     * 找回密码
+     * @param username
+     * @param newPassword
+     */
+    void forgetPass(String username, String newPassword);
 }

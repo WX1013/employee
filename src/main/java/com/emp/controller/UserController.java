@@ -228,10 +228,24 @@ public class UserController {
         if(emp.getEmail() == null){
             return new ApiResult("500","您的个人信息尚未完善，请联系管理员重置密码\n联系方式：18855992252");
         }
+        if(!emp.getEmail().equals(email)){
+            return new ApiResult("500","邮箱错误，请重新输入");
+        }
         // 发送验证码到用户邮箱
         MailUtils.sendMail(email,"您的验证码为：" + randCode,"验证码");
-        return new ApiResult(randCode);
+        return new ApiResult("200","发送成功",randCode);
     }
 
+    /**
+     * 忘记密码
+     * @param username
+     * @param newPassword
+     * @return
+     */
+    @RequestMapping("/forgetPass")
+    public ApiResult forgetPass(String username,String newPassword){
+        userService.forgetPass(username,newPassword);
+        return new ApiResult("200","找回密码成功，请登录");
+    }
 
 }

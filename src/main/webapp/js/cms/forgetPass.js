@@ -3,7 +3,6 @@ var time = 60;
 var flag = true;   //设置点击标记，防止60内再次点击生效
 //发送验证码
 $('#code').click(function () {
-    debugger;
     $(this).attr("disabled", true);
     var username = $('#username').val();
     var email = $('#email').val();
@@ -28,8 +27,7 @@ $('#code').click(function () {
                         email: email
                     },
                     success: function (res) {
-                        debugger;
-                        if (res == '200') {
+                        if (res.code == '200') {
                             vercode = res.result;
                             $("#code").html("已发送");
                         } else {
@@ -52,5 +50,30 @@ $('#code').click(function () {
             }
         }, 1000);
     }
-
 });
+
+function savePass(){
+    debugger;
+    var inputCode = $("#inputCode").val();
+    if(inputCode != vercode){
+        alert("验证码错误");
+        return;
+    }
+    var username = $("#username").val();
+    var newPassword = $("#newPassword").val();
+    $.ajax({
+        url: '/user/forgetPass',
+        type: 'get',
+        dataType: "json",
+        data: {
+            username: username,
+            newPassword: newPassword
+        },
+        success: function (res) {
+            alert(res.message);
+            if (res.code == '200') {
+                location.href = '../login.html';
+            }
+        }
+    });
+}

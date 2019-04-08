@@ -148,4 +148,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(MD5Util.md5(newpassword));
         userEntityMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public void forgetPass(String username, String newPassword) {
+        UserEntity user = userEntityMapper.getUserByUsername(username);
+        user.setPassword(MD5Util.md5(newPassword));
+        userEntityMapper.updateByPrimaryKeySelective(user);
+    }
 }
