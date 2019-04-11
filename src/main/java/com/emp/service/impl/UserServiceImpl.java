@@ -12,9 +12,11 @@ import com.emp.utils.MD5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmpEntityMapper empEntityMapper;
+
+   /* @Resource
+    private RedisTemplate redisTemplate;*/
 
     @Override
     public Map<String,Object> login(String username, String password) {

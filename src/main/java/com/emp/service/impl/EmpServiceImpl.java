@@ -2,6 +2,7 @@ package com.emp.service.impl;
 
 import com.emp.dao.DeptEntityMapper;
 import com.emp.dao.EmpEntityMapper;
+import com.emp.dao.UserEntityMapper;
 import com.emp.pojo.DeptEntity;
 import com.emp.pojo.EmpEntity;
 import com.emp.pojo.EmpEntityExample;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private EmpEntityMapper empEntityMapper;
+
+    @Autowired
+    private UserEntityMapper userEntityMapper;
 
     @Autowired
     private DeptEntityMapper deptEntityMapper;
@@ -49,6 +54,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Integer id) {
+        userEntityMapper.deleteByEmpId(id);
         empEntityMapper.deleteByPrimaryKey(id);
     }
 

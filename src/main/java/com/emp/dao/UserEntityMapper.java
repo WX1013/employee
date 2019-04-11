@@ -30,4 +30,6 @@ public interface UserEntityMapper {
     int updateByPrimaryKey(UserEntity record);
 
     UserEntity getUserByUsername(String username);
+
+    void deleteByEmpId(Integer empId);
 }

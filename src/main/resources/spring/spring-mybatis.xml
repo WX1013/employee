@@ -11,6 +11,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--<import resource="spring-redis.xml"/>-->
+
     <!--配置数据库外部资源-->
     <context:property-placeholder location="classpath*:properties/jdbcConfig.properties"/>
 

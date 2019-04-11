@@ -14,6 +14,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+
     <!-- 不拦截静态资源 -->
     <mvc:default-servlet-handler/>
 
@@ -36,12 +37,12 @@
 
     <!--配置扫描controller-->
     <context:component-scan base-package="com.emp.controller"/>
+    <!--开启springmvc注解的支持-->
 
+    <mvc:annotation-driven />
     <!--开启AOP-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <!--开启springmvc注解的支持-->
-    <mvc:annotation-driven />
 
 
     <!-- 定义文件上传解析器 -->
