@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
+    @Resource
     private AdminEntityMapper adminEntityMapper;
 
     @Override

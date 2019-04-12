@@ -8,10 +8,13 @@ import com.emp.service.LogService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -21,11 +24,11 @@ import java.util.Date;
 @Service
 public class LogServiceImpl implements LogService {
 
-    @Autowired
+    @Resource
     private LogEntityMapper logEntityMapper;
 
     @Override
-    public PageResult findPage(LogEntity log,int pageNum, int pageSize) {
+    public PageResult findPage(LogEntity log, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         LogEntityExample example = new LogEntityExample();
         LogEntityExample.Criteria criteria = example.createCriteria();
@@ -34,8 +37,8 @@ public class LogServiceImpl implements LogService {
                 criteria.andUsernameLike("%" + log.getUsername() + "%");
             }
         }
-        Page<LogEntity> page=  (Page<LogEntity>) logEntityMapper.selectByExample(example);
-        return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
+        Page<LogEntity> page = (Page<LogEntity>) logEntityMapper.selectByExample(example);
+        return new PageResult(pageNum, page.getPages(), page.getTotal(), page.getResult());
     }
 
 

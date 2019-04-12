@@ -28,7 +28,7 @@ function login() {
             success: function (data) {
                 alert(data.message);
                 if (data.code == 200) {
-                    location.href = "/cms/index.html";
+                    location.href = "../../cms/adminIndex.html";
                 }
             }
         });

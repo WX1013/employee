@@ -6,16 +6,19 @@ import com.emp.dao.UserEntityMapper;
 import com.emp.pojo.DeptEntity;
 import com.emp.pojo.EmpEntity;
 import com.emp.pojo.EmpEntityExample;
+import com.emp.pojo.LogEntity;
 import com.emp.pojo.result.PageResult;
 import com.emp.service.EmpService;
 import com.emp.utils.CommonUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,14 +30,17 @@ import java.util.List;
 @Service
 public class EmpServiceImpl implements EmpService {
 
-    @Autowired
+    @Resource
     private EmpEntityMapper empEntityMapper;
 
-    @Autowired
+    @Resource
     private UserEntityMapper userEntityMapper;
 
-    @Autowired
+    @Resource
     private DeptEntityMapper deptEntityMapper;
+
+    @Resource
+    private RedisTemplate<String, EmpEntity> redisTemplate;
 
     @Override
     public Integer save(EmpEntity entity) {
@@ -69,28 +75,35 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public PageResult findPage(EmpEntity emp, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        EmpEntityExample example=new EmpEntityExample();
-        EmpEntityExample.Criteria criteria = example.createCriteria();
-        if(emp!=null){
-            if(emp.getName()!=null && emp.getName().length()>0){
-                criteria.andNameLike("%"+emp.getName()+"%");
+
+        // 判断缓存中是否有数据
+        if(redisTemplate.opsForList().size("emps") > 0) {
+            // 如果缓存中有数据，则从缓存中查询数据
+            List<EmpEntity> range = redisTemplate.opsForList().range("emps", 0, -1);
+            List<EmpEntity> pageResult = new ArrayList<>();
+            for (int i = (pageNum - 1) * pageSize; i < (pageNum - 1) * pageSize + pageSize; i++) {
+                pageResult.add(range.get(i));
             }
-            if(emp.getIdentity()!=null && emp.getIdentity().length()>0){
-                criteria.andIdentityLike("%"+emp.getIdentity()+"%");
+            int total = range.size();
+            int pages = total / pageSize + 1;
+            return new PageResult(pageNum, pages, total, pageResult);
+        }else{
+            // 如果缓存中没有，则从数据库中查并且存数据到缓存中
+            List<EmpEntity> emps = empEntityMapper.selectByExample(null);
+            for (EmpEntity empEntity : emps) {
+                redisTemplate.opsForList().rightPush("emps", empEntity);
             }
-            if(emp.getAddress()!=null && emp.getAddress().length()>0){
-                criteria.andAddressLike("%"+emp.getAddress()+"%");
+            PageHelper.startPage(pageNum, pageSize);
+            EmpEntityExample example=new EmpEntityExample();
+            EmpEntityExample.Criteria criteria = example.createCriteria();
+            if(emp!=null){
+                if(emp.getName()!=null && emp.getName().length()>0){
+                    criteria.andNameLike("%"+emp.getName()+"%");
+                }
             }
-            if(emp.getPhone()!=null && emp.getPhone().length()>0){
-                criteria.andPhoneLike("%"+emp.getPhone()+"%");
-            }
-            if(emp.getEmail()!=null && emp.getEmail().length()>0){
-                criteria.andEmailLike("%"+emp.getEmail()+"%");
-            }
+            Page<EmpEntity> page= (Page<EmpEntity>)empEntityMapper.selectByExample(example);
+            return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
         }
-        Page<EmpEntity> page= (Page<EmpEntity>)empEntityMapper.selectByExample(example);
-        return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
 
     @Override

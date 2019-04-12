@@ -9,7 +9,7 @@
     </bean>
     <!-- 连接池配置，类似数据库连接池 -->
     <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="loalhost"/>
+        <property name="hostName" value="localhost"/>
         <property name="port" value="6379"/>
         <property name="poolConfig" ref="poolConfig"/>
     </bean>

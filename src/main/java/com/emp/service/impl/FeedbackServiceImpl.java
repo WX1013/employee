@@ -25,10 +25,10 @@ import java.util.List;
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
-    @Autowired
+    @Resource
     private FeedbackEntityMapper feedbackEntityMapper;
 
-    @Autowired
+    @Resource
     private UserEntityMapper userEntityMapper;
 
     @Override

@@ -19,12 +19,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 获取请求路径
         String requestURI = request.getRequestURI();
         // 如果是注册或者登陆就放行
-        if(requestURI.contains("/login")  || requestURI.contains("/regist")){
+        if(requestURI.contains("/login")  || requestURI.contains("/regist") || requestURI.contains("/forgetPass")){
             return true;
         }
         // 获取域中信息
-        AdminEntity admin_info = (AdminEntity) request.getAttribute("admin_info");
-        UserEntity user_info = (UserEntity) request.getAttribute("user_info");
+        AdminEntity admin_info = (AdminEntity) request.getSession().getAttribute("admin_info");
+        UserEntity user_info = (UserEntity) request.getSession().getAttribute("user_info");
         // 如果未登录 跳转到登录页面
         if(admin_info == null && user_info == null){
             request.getRequestDispatcher("/login.html").forward(request,response);

@@ -15,43 +15,42 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <!-- 不拦截静态资源 -->
-    <mvc:default-servlet-handler/>
-
-    <!--<mvc:resources mapping="/js/**" location="/js/" />
-    <mvc:resources mapping="/css/**" location="/css/" />
-    <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/manage/**" location="/manage/" />-->
-
-    <!--<mvc:resources mapping="/static/**" location="/static/"/>-->
-    <!-- 配置拦截器 -->
-    <!--<mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/admin/login"/>
-            <mvc:exclude-mapping path="/user/login"/>
-            <mvc:exclude-mapping path="/user/regist"/>
-            <bean id="loginInterceptor" class="com.emp.interceptor.LoginInterceptor" />
-        </mvc:interceptor>
-    </mvc:interceptors>-->
-
     <!--配置扫描controller-->
     <context:component-scan base-package="com.emp.controller"/>
     <!--开启springmvc注解的支持-->
-
     <mvc:annotation-driven />
     <!--开启AOP-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <!-- 不拦截静态资源 -->
+    <mvc:default-servlet-handler/>
 
+    <mvc:resources mapping="/cms/**" location="/cms/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/img/**" location="/img/" />
+    <mvc:resources mapping="/plugins/**" location="/plugins/" />
 
-    <!-- 定义文件上传解析器 -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- 设定默认编码 -->
-        <property name="defaultEncoding" value="UTF-8"></property>
-        <!-- 设定文件上传的最大值5MB，5*1024*1024 -->
-        <property name="maxUploadSize" value="5242880"></property>
-    </bean>
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login.html"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/fonts/**"/>
+            <mvc:exclude-mapping path="/admin/login"/>
+            <mvc:exclude-mapping path="/admin/logout"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/logout"/>
+            <mvc:exclude-mapping path="/user/regist"/>
+            <mvc:exclude-mapping path="/user/getCode"/>
+            <mvc:exclude-mapping path="/user/forgetPass"/>
+            <bean id="loginInterceptor" class="com.emp.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
 

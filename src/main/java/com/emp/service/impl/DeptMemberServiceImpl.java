@@ -28,13 +28,13 @@ import java.util.List;
 @Service
 public class DeptMemberServiceImpl implements DeptMemberService  {
 
-    @Autowired
+    @Resource
     private DeptMemberEntityMapper deptMemberEntityMapper;
 
-    @Autowired
+    @Resource
     private DeptEntityMapper deptEntityMapper;
 
-    @Autowired
+    @Resource
     private EmpEntityMapper empEntityMapper;
 
     @Override

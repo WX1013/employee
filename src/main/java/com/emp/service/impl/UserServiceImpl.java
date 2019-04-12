@@ -30,14 +30,11 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Resource
     private UserEntityMapper userEntityMapper;
 
-    @Autowired
+    @Resource
     private EmpEntityMapper empEntityMapper;
-
-   /* @Resource
-    private RedisTemplate redisTemplate;*/
 
     @Override
     public Map<String,Object> login(String username, String password) {

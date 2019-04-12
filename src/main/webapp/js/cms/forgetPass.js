@@ -53,14 +53,17 @@ $('#code').click(function () {
 });
 
 function savePass(){
-    debugger;
     var inputCode = $("#inputCode").val();
-    if(inputCode != vercode){
+    if(inputCode == null || inputCode == "" || inputCode != vercode){
         alert("验证码错误");
         return;
     }
     var username = $("#username").val();
     var newPassword = $("#newPassword").val();
+    if(newPassword == null || newPassword == ""){
+        alert("请输入新密码");
+        return;
+    }
     $.ajax({
         url: '/user/forgetPass',
         type: 'get',
