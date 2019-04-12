@@ -75,7 +75,6 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public PageResult findPage(EmpEntity emp, int pageNum, int pageSize) {
-
         // 判断缓存中是否有数据
         if(redisTemplate.opsForList().size("emps") > 0) {
             // 如果缓存中有数据，则从缓存中查询数据
