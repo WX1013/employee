@@ -80,7 +80,11 @@ public class EmpServiceImpl implements EmpService {
             // 如果缓存中有数据，则从缓存中查询数据
             List<EmpEntity> range = redisTemplate.opsForList().range("emps", 0, -1);
             List<EmpEntity> pageResult = new ArrayList<>();
-            for (int i = (pageNum - 1) * pageSize; i < (pageNum - 1) * pageSize + pageSize; i++) {
+            int upCount = (pageNum - 1) * pageSize + pageSize;
+            if(upCount >= range.size()){
+                upCount = range.size();
+            }
+            for (int i = (pageNum - 1) * pageSize; i < upCount; i++) {
                 pageResult.add(range.get(i));
             }
             int total = range.size();
