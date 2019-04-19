@@ -46,7 +46,7 @@ public class FeedbackController {
      * @param id
      * @return
      */
-    @RequestMapping("/delFeed")
+    @RequestMapping("/delete")
     public ApiResult delFeed(int id){
         feedbackService.delFeed(id);
         return new ApiResult("200","删除成功");

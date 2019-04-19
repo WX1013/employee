@@ -135,6 +135,7 @@ function myalert() {
         top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
         display: "block"
     }).find("p").html();
+    $("#nameDig").text("新增部门");
     $("#deptId").val("");
     $("#name").val("");
 }
@@ -145,6 +146,7 @@ function edit(deptId){
         height: "100%",
         position: "fixed"
     });
+    $("#nameDig").text("编辑部门");
     var $box = $('.box');
     $box.css({
         //设置弹出层距离左边的位置
@@ -163,7 +165,8 @@ function edit(deptId){
         success: function (res) {
             if(res.code == '200'){
                 var dept = res.result;
-                console.log(dept);
+                debugger;
+
                 $("#deptId").val(dept.id);
                 $("#name").val(dept.name);
             }

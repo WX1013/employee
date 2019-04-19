@@ -3,6 +3,8 @@ package com.emp.utils;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -10,14 +12,27 @@ import java.util.Properties;
  */
 public final class MailUtils {
 
+    public static Properties properties = new Properties();
+
+    static {
+        try{
+            String path = "properties/mail.properties";
+            InputStream is = MailUtils.class.getClassLoader().getResourceAsStream(path);
+            properties.load(is);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 发件人称号，同邮箱地址
      */
-    private static String USER = "iamwx@foxmail.com";
+
+    private static String USER = (String) properties.get("mail.user");
     /**
      * 如果是qq邮箱可以使户端授权码，或者登录密码
      */
-    private static String PASSWORD = "pnqtiytdcbltbhhf";
+    private static String PASSWORD = (String) properties.get("mail.password");
 
     private static String HOST = "smtp.qq.com";
 
