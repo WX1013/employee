@@ -75,7 +75,7 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public PageResult findPage(EmpEntity emp, int pageNum, int pageSize) {
-        // 判断缓存中是否有数据
+        /*// 判断缓存中是否有数据
         if (redisTemplate.opsForList().size("emps") > 0) {
             // 如果缓存中有数据，则从缓存中查询数据
             List<EmpEntity> range = redisTemplate.opsForList().range("emps", 0, -1);
@@ -106,7 +106,23 @@ public class EmpServiceImpl implements EmpService {
             }
             Page<EmpEntity> page = (Page<EmpEntity>) empEntityMapper.selectByExample(example);
             return new PageResult(pageNum, page.getPages(), page.getTotal(), page.getResult());
+        }*/
+
+        // 如果缓存中没有，则从数据库中查并且存数据到缓存中
+        List<EmpEntity> emps = empEntityMapper.selectByExample(null);
+        for (EmpEntity empEntity : emps) {
+            redisTemplate.opsForList().rightPush("emps", empEntity);
         }
+        PageHelper.startPage(pageNum, pageSize);
+        EmpEntityExample example = new EmpEntityExample();
+        EmpEntityExample.Criteria criteria = example.createCriteria();
+        if (emp != null) {
+            if (emp.getName() != null && emp.getName().length() > 0) {
+                criteria.andNameLike("%" + emp.getName() + "%");
+            }
+        }
+        Page<EmpEntity> page = (Page<EmpEntity>) empEntityMapper.selectByExample(example);
+        return new PageResult(pageNum, page.getPages(), page.getTotal(), page.getResult());
     }
 
     @Override
@@ -118,6 +134,11 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public List<EmpEntity> findAll() {
         return empEntityMapper.selectByExample(null);
+    }
+
+    @Override
+    public int updateSalary(EmpEntity emp) {
+        return empEntityMapper.updateByPrimaryKeySelective(emp);
     }
 
 

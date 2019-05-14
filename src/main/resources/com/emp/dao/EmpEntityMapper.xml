@@ -10,6 +10,8 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="salary" jdbcType="DOUBLE" property="salary" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="del_flg" jdbcType="INTEGER" property="delFlg" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
@@ -74,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, age, sex, identity, address, phone, email, dept_id, del_flg, add_time,
+    id, name, age, sex, identity, address, phone, email,salary,position, dept_id, del_flg, add_time,
     update_time
   </sql>
   <select id="selectByExample" parameterType="com.emp.pojo.EmpEntityExample" resultMap="BaseResultMap">
@@ -110,12 +112,13 @@
   <insert id="insert" parameterType="com.emp.pojo.EmpEntity">
     insert into t_emp (id, name, age,
       sex, identity, address,
-      phone, email, dept_id,
+      phone, email, salary, position, dept_id,
       del_flg, add_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{sex,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER},
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{salary,jdbcType=DOUBLE},
+      #{positon,jdbcType=INTEGER},#{deptId,jdbcType=INTEGER},
       #{delFlg,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -148,6 +151,12 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="position != null" >
+        position,
       </if>
       <if test="deptId != null">
         dept_id,
@@ -186,6 +195,12 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
       </if>
       <if test="deptId != null">
         #{deptId,jdbcType=INTEGER},
@@ -234,6 +249,12 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.salary != null">
+        dept_id = #{record.salary,jdbcType=DOUBLE},
+      </if>
+      <if test="record.position != null">
+        dept_id = #{record.position,jdbcType=VARCHAR},
+      </if>
       <if test="record.deptId != null">
         dept_id = #{record.deptId,jdbcType=INTEGER},
       </if>
@@ -261,6 +282,8 @@
       address = #{record.address,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=DOUBLE},
+      position = #{record.position,jdbcType=VARCHAR},
       dept_id = #{record.deptId,jdbcType=INTEGER},
       del_flg = #{record.delFlg,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
@@ -293,6 +316,12 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
       <if test="deptId != null">
         dept_id = #{deptId,jdbcType=INTEGER},
       </if>
@@ -317,6 +346,8 @@
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=DOUBLE},
+      position = #{position,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=INTEGER},
       del_flg = #{delFlg,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},

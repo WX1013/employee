@@ -7,6 +7,12 @@ $('input[type=radio][name=options]').change(function () {
     }
 });
 
+function keyLogin(){
+    debugger;
+    if(event.keyCode == 13){
+        login();
+    }
+}
 
 // 登录方法
 function login() {

@@ -16,6 +16,10 @@ public class DeptMemberEntity implements Serializable {
 
     private String deptname;
 
+    private Double salary;
+
+    private String position;
+
     private Integer delflg;
 
     private Date addtime;
@@ -25,6 +29,22 @@ public class DeptMemberEntity implements Serializable {
     private Date updatetime;
 
     private static final long serialVersionUID = 1L;
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public Integer getId() {
         return id;

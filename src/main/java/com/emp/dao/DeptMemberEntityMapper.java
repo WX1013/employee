@@ -2,6 +2,7 @@ package com.emp.dao;
 
 import com.emp.pojo.DeptMemberEntity;
 import com.emp.pojo.DeptMemberEntityExample;
+import com.emp.pojo.EmpEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public interface DeptMemberEntityMapper {
     int updateByPrimaryKey(DeptMemberEntity record);
 
     List<DeptMemberEntity> selectByDeptId(Integer deptid);
+
+    DeptMemberEntity selectByEmpId(Integer empid);
+
+    void deleteByEmpId(Integer empid);
 }

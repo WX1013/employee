@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
         emp.setName(name);
         emp.setPhone(phone);
         emp.setDelFlg(0);
+        emp.setPosition("普通职工");
         emp.setAddTime(new Date());
         emp.setUpdateTime(new Date());
         UserEntity userOld = userEntityMapper.getUserByUsername(username);

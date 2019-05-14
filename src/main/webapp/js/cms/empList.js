@@ -24,9 +24,12 @@ function search(username, page, size) {
                 html += ' <td>'+ entities[i].name +'</td>';
                 html += ' <td>'+ getSex(entities[i].sex) +'</td>';
                 html += ' <td>'+ entities[i].phone +'</td>';
+                html += ' <td>'+ entities[i].salary +'</td>';
+                html += ' <td>'+ entities[i].position +'</td>';
                 html += ' <td>'+ entities[i].addTimeStr +'</td>';
-                html += ' <td><a  class="btn bg-olive btn-xs" href="userDetail.html?id='+entities[i].id+'">查看</a>';
-                html += ' <a  class="btn bg-maroon btn-xs" onclick="delEmp('+entities[i].id+')"">删除</a></td>';
+                html += ' <td><a  class="btn bg-olive btn-xs" onclick="showDialog('+entities[i].id+','+entities[i].salary+')">设置工资</a>';
+                html += ' <a  class="btn bg-olive btn-xs" href="userDetail.html?id='+entities[i].id+'">查看</a>';
+                html += ' <a  class="btn bg-maroon btn-xs" onclick="delEmp('+entities[i].id+')">删除</a></td>';
                 html += '</tr>';
             }
             $("#table_data").html(html);
@@ -86,7 +89,7 @@ function getSex(sex) {
 }
 
 function delEmp(id) {
-    var flag = confirm("确认删除该职工？删除不可恢复");
+    var flag = confirm("·删除该职工？删除不可恢复");
     if(flag){
         $.ajax({
             url: "/emp/delete",   //url
@@ -110,4 +113,49 @@ function delEmp(id) {
 function searchByName(){
     var empname = $("#name").val();
     search(empname,1,10);
+}
+
+function showDialog(id,salary){
+    $("#bg").css({
+        display: "block",
+        height: "100%",
+        position: "fixed"
+    });
+    var $box = $('.box');
+    $box.css({
+        //设置弹出层距离左边的位置
+        left: ($("body").width() - $box.width()) / 2 + "px",
+        //设置弹出层距离上面的位置
+        top: ($(window).height() - $box.height()) / 2 - $(window).scrollTop() - $box.height() + "px",
+        display: "block"
+    }).find("p").html();
+    $("#empId").val(id);
+    $("#salary").val(salary);
+}
+
+function updateSalary() {
+    var empId = $("#empId").val();
+    var salary = $("#salary").val();
+    $.ajax({
+        url: "/emp/updateSalary",   //url
+        type: "post",   //请求类型 ,
+        dataType: "json",
+        data: {
+            id: empId,
+            salary: salary
+        },
+        success: function (res) {
+            alert(res.message);
+            if(res.code == '200'){
+                location.reload();
+                cancel();
+            }
+        }
+    });
+}
+
+function cancel() {
+    $("#divResult").hide();
+    $("#bg").hide();
+    $(".box").hide();
 }

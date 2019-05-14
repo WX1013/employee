@@ -30,4 +30,10 @@ public interface DeptMemberService {
      * @param id
      */
     void delMember(Integer id);
+
+    /**
+     * 设置成部长
+     * @param id
+     */
+    void tobeLeader(Integer id);
 }

@@ -22,6 +22,10 @@ public class EmpEntity implements Serializable {
 
     private String email;
 
+    private Double salary;
+
+    private String position;
+
     private Integer deptId;
 
     private String deptName;
@@ -82,6 +86,22 @@ public class EmpEntity implements Serializable {
 
     public void setSex(Integer sex) {
         this.sex = sex;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getIdentity() {

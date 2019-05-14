@@ -260,4 +260,11 @@
     select * from t_dept_member where deptid = #{deptid}
   </select>
 
+  <select id="selectByEmpId" resultMap="BaseResultMap">
+    select * from t_dept_member where empId = #{empid}
+  </select>
+
+  <delete id="deleteByEmpId">
+    delete from t_dept_member where empId = #{empid}
+  </delete>
 </mapper>

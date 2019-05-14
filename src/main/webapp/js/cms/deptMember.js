@@ -17,8 +17,11 @@ $(function () {
                 html += '<tr>';
                 html += ' <td>' + members[i].id + '</td>';
                 html += ' <td>' + members[i].empname + '</td>';
+                html += ' <td>' + members[i].salary + '</td>';
+                html += ' <td>' + members[i].position + '</td>';
                 html += ' <td>' + members[i].addTimeStr + '</td>';
-                html += ' <td><a  class="btn bg-maroon btn-xs" onclick="delMember(' + members[i].id + ')"">删除</a></td>';
+                html += ' <td><a  class="btn bg-olive btn-xs" onclick="tobeLeader('+members[i].id+')">置为部长</a>';
+                html += ' <a  class="btn bg-maroon btn-xs" onclick="delMember(' + members[i].id + ')"">删除</a></td>';
                 html += '</tr>';
             }
             $("#table_data").html(html);
@@ -146,4 +149,24 @@ function cancel() {
     $("#divResult").hide();
     $("#bg").hide();
     $(".box").hide();
+}
+
+
+function tobeLeader(id) {
+    if(confirm("确定设置此职工为本部门部长吗？")){
+        $.ajax({
+            url: "/member/tobeLeader",   //url
+            type: "post",   //请求类型 ,
+            dataType: "json",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                alert(res.message);
+                if(res.code == 200){
+                    location.reload();
+                }
+            }
+        });
+    }
 }

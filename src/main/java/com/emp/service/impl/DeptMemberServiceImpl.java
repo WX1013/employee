@@ -44,6 +44,12 @@ public class DeptMemberServiceImpl implements DeptMemberService  {
         DeptMemberEntityExample.Criteria criteria = example.createCriteria();
         criteria.andDeptidEqualTo(deptId);
         Page<DeptMemberEntity> page= (Page<DeptMemberEntity>)deptMemberEntityMapper.selectByExample(example);
+        List<DeptMemberEntity> list = page.getResult();
+        for (DeptMemberEntity member : list) {
+            EmpEntity emp = empEntityMapper.selectByPrimaryKey(member.getEmpid());
+            member.setSalary(emp.getSalary());
+            member.setPosition(emp.getPosition());
+        }
         return new PageResult(pageNum,page.getPages(),page.getTotal(), page.getResult());
     }
 
@@ -60,9 +66,15 @@ public class DeptMemberServiceImpl implements DeptMemberService  {
         // 获取添加的职工信息
         EmpEntity emp = empEntityMapper.selectByPrimaryKey(entity.getEmpid());
         entity.setEmpname(emp.getName());
+        emp.setPosition("普通职工");
         // 给职工表添加部门信息
         emp.setDeptId(entity.getDeptid());
-        empEntityMapper.updateByPrimaryKey(emp);
+        empEntityMapper.updateByPrimaryKeySelective(emp);
+        // 判断其他部门是否有该职工
+        DeptMemberEntity oleEmp = deptMemberEntityMapper.selectByEmpId(entity.getEmpid());
+        if(oleEmp != null){
+            deptMemberEntityMapper.deleteByEmpId(entity.getEmpid());
+        }
         // 获取部门信息
         DeptEntity dept = deptEntityMapper.selectByPrimaryKey(entity.getDeptid());
         entity.setDeptname(dept.getName());
@@ -77,5 +89,14 @@ public class DeptMemberServiceImpl implements DeptMemberService  {
     @Override
     public void delMember(Integer id) {
         deptMemberEntityMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void tobeLeader(Integer id) {
+        DeptMemberEntity member = deptMemberEntityMapper.selectByPrimaryKey(id);
+        DeptEntity dept = deptEntityMapper.selectByPrimaryKey(member.getDeptid());
+        EmpEntity emp = empEntityMapper.selectByPrimaryKey(member.getEmpid());
+        emp.setPosition(dept.getName()+"部长");
+        empEntityMapper.updateByPrimaryKeySelective(emp);
     }
 }

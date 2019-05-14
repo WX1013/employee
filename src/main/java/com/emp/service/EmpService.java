@@ -47,4 +47,11 @@ public interface EmpService {
     void update(EmpEntity entity);
 
     List<EmpEntity> findAll();
+
+    /**
+     * 设置工资
+     * @param emp
+     * @return
+     */
+    int updateSalary(EmpEntity emp);
 }

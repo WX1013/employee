@@ -87,5 +87,18 @@ public class EmpController {
         return new ApiResult(empService.findAll());
     }
 
+    /**
+     * 设置职工工资
+     * @param emp
+     * @return
+     */
+    @RequestMapping("/updateSalary")
+    public ApiResult updateSalary(EmpEntity emp){
+        int count = empService.updateSalary(emp);
+        if(count == 1){
+            return new ApiResult("200","设置成功");
+        }
+        return new ApiResult("500","设置失败");
+    }
 
 }
