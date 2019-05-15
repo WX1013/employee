@@ -19,8 +19,10 @@ $(function () {
                 html += ' <td>' + members[i].empname + '</td>';
                 html += ' <td>' + members[i].salary + '</td>';
                 html += ' <td>' + members[i].position + '</td>';
-                html += ' <td>' + members[i].addTimeStr + '</td>';
-                html += ' <td><a  class="btn bg-olive btn-xs" onclick="tobeLeader('+members[i].id+')">置为部长</a>';
+                html += ' <td>' + members[i].addTimeStr + '</td><td>';
+                if(members[i].position === "普通职工"){
+                    html += ' <a  class="btn bg-olive btn-xs" onclick="tobeLeader('+members[i].id+')">置为部长</a>';
+                }
                 html += ' <a  class="btn bg-maroon btn-xs" onclick="delMember(' + members[i].id + ')"">删除</a></td>';
                 html += '</tr>';
             }

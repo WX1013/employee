@@ -59,6 +59,11 @@ public class DeptMemberController {
         return new ApiResult("200","刪除成功");
     }
 
+    /**
+     * 设置部长
+     * @param id
+     * @return
+     */
     @RequestMapping("/tobeLeader")
     public ApiResult tobeLeader(Integer id){
         deptMemberService.tobeLeader(id);

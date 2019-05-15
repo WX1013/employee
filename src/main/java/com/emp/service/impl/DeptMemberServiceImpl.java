@@ -15,6 +15,7 @@ import jdk.nashorn.internal.ir.EmptyNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -93,8 +94,22 @@ public class DeptMemberServiceImpl implements DeptMemberService  {
 
     @Override
     public void tobeLeader(Integer id) {
+        // 查找到成员
         DeptMemberEntity member = deptMemberEntityMapper.selectByPrimaryKey(id);
+        // 确定部门
         DeptEntity dept = deptEntityMapper.selectByPrimaryKey(member.getDeptid());
+        // 查找部门下是否有部长
+        List<DeptMemberEntity> members = deptMemberEntityMapper.selectByDeptId(dept.getId());
+        if(!CollectionUtils.isEmpty(members)){
+            for (DeptMemberEntity m : members) {
+                EmpEntity emp = empEntityMapper.selectByPrimaryKey(m.getEmpid());
+                if(emp.getPosition().contains("部长")){
+                    emp.setPosition("普通职工");
+                    empEntityMapper.updateByPrimaryKeySelective(emp);
+                }
+            }
+        }
+        // 确定职工
         EmpEntity emp = empEntityMapper.selectByPrimaryKey(member.getEmpid());
         emp.setPosition(dept.getName()+"部长");
         empEntityMapper.updateByPrimaryKeySelective(emp);
