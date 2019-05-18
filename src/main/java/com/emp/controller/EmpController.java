@@ -79,15 +79,6 @@ public class EmpController {
     }
 
     /**
-     * 查询所有职工信息
-     * @return
-     */
-    @RequestMapping("/getEmps")
-    public ApiResult findAll(){
-        return new ApiResult(empService.findAll());
-    }
-
-    /**
      * 设置职工工资
      * @param emp
      * @return
