@@ -54,6 +54,9 @@ public class EmpServiceImpl implements EmpService {
             entity.setUpdateTime(new Date());
             count = empEntityMapper.updateByPrimaryKey(entity);
         }
+        // 清空缓存
+        redisTemplate.delete("emps");
+
         return count;
     }
 
@@ -62,6 +65,8 @@ public class EmpServiceImpl implements EmpService {
     public void delete(Integer id) {
         userEntityMapper.deleteByEmpId(id);
         empEntityMapper.deleteByPrimaryKey(id);
+        // 清空缓存
+        redisTemplate.delete("emps");
     }
 
     @Override
@@ -165,6 +170,8 @@ public class EmpServiceImpl implements EmpService {
     public void update(EmpEntity entity) {
         entity.setUpdateTime(new Date());
         empEntityMapper.updateByPrimaryKeySelective(entity);
+        // 清空缓存
+        redisTemplate.delete("emps");
     }
 
     @Override
@@ -174,6 +181,8 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public int updateSalary(EmpEntity emp) {
+        // 清空缓存
+        redisTemplate.delete("emps");
         return empEntityMapper.updateByPrimaryKeySelective(emp);
     }
 

@@ -22,8 +22,12 @@ function search(username, page, size) {
                 html += '<tr>';
                 html += ' <td>' + users[i].id + '</td>';
                 html += ' <td>' + users[i].username + '</td>';
+                if(users[i].delFlg === 0){
+                    html += ' <td>' + state(users[i].delFlg) + '</td>';
+                }else {
+                    html += '<td style="color: red">' + state(users[i].delFlg) + '</td>';
+                }
                 html += ' <td>' + users[i].addTimeStr + '</td>';
-                html += ' <td>' + state(users[i].delFlg) + '</td>';
                 html += ' <td><button type="button" class="btn bg-olive btn-xs" onclick="updateState(' + users[i].id + ',' + users[i].delFlg + ')" >' + opration(users[i].delFlg) + '</button>';
                 html += ' <a  class="btn bg-olive btn-xs" href="userDetail.html?id=' + users[i].empId + '">查看</a>';
                 html += ' <a  class="btn bg-maroon btn-xs" onclick="delUser(' + users[i].id + ')"">删除</a>';
