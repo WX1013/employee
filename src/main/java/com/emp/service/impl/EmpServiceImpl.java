@@ -73,6 +73,42 @@ public class EmpServiceImpl implements EmpService {
         return entity;
     }
 
+
+    public PageResult findByPage(EmpEntity emp, int pageNum, int pageSize) {
+        // 判断缓存中是否有数据
+        if (redisTemplate.opsForList().size("emps") > 0) {
+            // 如果缓存中有数据，则从缓存中查询数据
+            List<EmpEntity> range = redisTemplate.opsForList().range("emps", 0, -1);
+            List<EmpEntity> pageResult = new ArrayList<>();
+            int upCount = (pageNum - 1) * pageSize + pageSize;
+            if (upCount >= range.size()) {
+                upCount = range.size();
+            }
+            for (int i = (pageNum - 1) * pageSize; i < upCount; i++) {
+                pageResult.add(range.get(i));
+            }
+            int total = range.size();
+            int pages = total / pageSize + 1;
+            return new PageResult(pageNum, pages, total, pageResult);
+        } else {
+            // 如果缓存中没有，则从数据库中查并且存数据到缓存中
+            List<EmpEntity> emps = empEntityMapper.selectByExample(null);
+            for (EmpEntity empEntity : emps) {
+                redisTemplate.opsForList().rightPush("emps", empEntity);
+            }
+            PageHelper.startPage(pageNum, pageSize);
+            EmpEntityExample example = new EmpEntityExample();
+            EmpEntityExample.Criteria criteria = example.createCriteria();
+            if (emp != null) {
+                if (emp.getName() != null && emp.getName().length() > 0) {
+                    criteria.andNameLike("%" + emp.getName() + "%");
+                }
+            }
+            Page<EmpEntity> page = (Page<EmpEntity>) empEntityMapper.selectByExample(example);
+            return new PageResult(pageNum, page.getPages(), page.getTotal(), page.getResult());
+        }
+    }
+
     @Override
     public PageResult findPage(EmpEntity emp, int pageNum, int pageSize) {
         /*// 判断缓存中是否有数据
@@ -129,11 +165,6 @@ public class EmpServiceImpl implements EmpService {
     public void update(EmpEntity entity) {
         entity.setUpdateTime(new Date());
         empEntityMapper.updateByPrimaryKeySelective(entity);
-    }
-
-    @Override
-    public List<EmpEntity> findAll() {
-        return empEntityMapper.selectByExample(null);
     }
 
     @Override

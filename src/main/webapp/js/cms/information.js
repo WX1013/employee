@@ -31,7 +31,7 @@ function updateInfo() {
         alert("性别不能为空");
         return;
     }
-    if(sexStr != "男" && sex != "女"){
+    if(sexStr != "男" && sexStr != "女"){
         alert("请输入正确的性别");
         return;
     }
