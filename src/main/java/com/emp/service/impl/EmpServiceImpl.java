@@ -168,6 +168,11 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
+    public List<EmpEntity> findAll() {
+        return empEntityMapper.selectByExample(null);
+    }
+
+    @Override
     public int updateSalary(EmpEntity emp) {
         return empEntityMapper.updateByPrimaryKeySelective(emp);
     }

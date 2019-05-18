@@ -87,7 +87,7 @@ public class LogAspect {
         // 获取访问的方法
         String methodName = pjp.getSignature().getName();
         log.setMethod(methodName);
-        if(log.getUsername() != null){
+        if(log.getUsername() != null && !methodName.contains("getLogList")){
             logService.save(log);
         }
         // 拦截的方法参数
