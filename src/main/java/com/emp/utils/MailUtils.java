@@ -3,7 +3,6 @@ package com.emp.utils;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -50,6 +49,11 @@ public final class MailUtils {
             props.put("mail.user", USER);
             //发件人的密码
             props.put("mail.password", PASSWORD);
+            // 设置成465端口
+            props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.setProperty("mail.smtp.socketFactory.fallback", "false");
+            props.setProperty("mail.smtp.port", "465");
+            props.setProperty("mail.smtp.socketFactory.port", "465");
 
             // 构建授权信息，用于进行SMTP进行身份验证
             Authenticator authenticator = new Authenticator() {
