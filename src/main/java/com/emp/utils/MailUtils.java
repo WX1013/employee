@@ -26,7 +26,6 @@ public final class MailUtils {
     /**
      * 发件人称号，同邮箱地址
      */
-
     private static String USER = (String) properties.get("mail.user");
     /**
      * 如果是qq邮箱可以使户端授权码，或者登录密码
@@ -90,7 +89,7 @@ public final class MailUtils {
     }
 
     public static void main(String[] args) throws Exception { // 做测试用
-        MailUtils.sendMail("228867531@qq.com","你好，无需回复，这是一封测试邮件。","哈哈哈哈邮件");
+        MailUtils.sendMail("iamwx@foxmail.com","你好，无需回复，这是一封测试邮件。","测试邮箱");
         System.out.println("发送成功");
     }
 

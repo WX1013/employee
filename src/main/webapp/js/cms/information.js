@@ -114,6 +114,8 @@ function fullData(user) {
     $("#phone").val(user.phone);
     $("#email").val(user.email);
     $("#deptName").val(user.deptName);
+    $("#position").val(user.position);
+    $("#salary").val(user.salary);
     $("#address").val(user.address);
     if(user.delFlg == 0){
         $("#state").val("启用");
